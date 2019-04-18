@@ -33,6 +33,7 @@
 
 <!-- Bootstrap样式 -->
 <link rel="stylesheet" type="text/css" href="/Library/style/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- 通用样式 -->
 <link rel="stylesheet" type="text/css" href="/Library/style/common.css" />
 
@@ -44,12 +45,12 @@
 	<div class="container section">
 		<form name="form1" id="form1" method="post" action="login.jsp?action=login">
 			<div class="form-group">
-				<label for="txtUsername">用户名</label> <input name="txtUsername" id="txtUsername" type="text"
-					class="form-control" placeholder="用户名">
+				<label for="txtUsername">用户名</label>
+				<input name="txtUsername" id="txtUsername" type="text" class="form-control" placeholder="用户名">
 			</div>
 			<div class="form-group">
-				<label for="txtPassword">密码</label> <input name="txtPassword" id="txtPassword"
-					type="password" class="form-control" placeholder="密码">
+				<label for="txtPassword">密码</label>
+				<input name="txtPassword" id="txtPassword" type="password" class="form-control" placeholder="密码">
 			</div>
 			<div class="checkbox">
 				<label><input name="remember" id="remember" type="checkbox">记住登录状态</label>
