@@ -1,0 +1,77 @@
+@CHARSET "UTF-8";
+
+/* 网页背景色 */
+body {
+	background-color: rgba(135, 207, 235, 0.1);
+}
+
+
+/* 顶部和导航栏横条 */
+#top-row, #nav-row {
+	height: 24px;
+	line-height: 24px;
+	color: azure;
+	background-color: deepskyblue;
+}
+
+/* 顶部横条按钮 */
+#top-row a {
+	line-height: 18px;
+	color: azure;
+	margin-left: 8px;
+}
+
+/* 标题下层图片 */
+#title-row {
+	height: 96px;
+	background-image: url("/Library/image/title-bg.jpg");
+	background-size: cover;
+}
+
+/* 标题上层图片 */
+#title-container {
+	height: 100%;
+	background-image: url("/Library/image/title.jpg");
+	background-repeat: no-repeat;
+}
+
+/* 导航栏按钮 */
+#nav-row a {
+	padding: 0;
+	line-height: 24px;
+	color: azure;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+/* 页面底部 */
+footer {
+	color: lightgray;
+}
+
+footer a {
+	color: lightgray;
+	text-decoration: underline;
+}
+
+.section {
+	background-color: rgba(135, 207, 235, 0.1);
+	padding: 48px 72px;
+	margin: 48px auto;
+	min-height: 300px;
+}
+
+#nav-row a:hover {
+	background-color: lightskyblue;
+}
+
+/* 列表项 */
+.list-group-item {
+	background-color: initial;
+	border: 0;
+}
+
+a.list-group-item:hover {
+	background-color: rgba(135, 207, 235, 0.1);
+}
+

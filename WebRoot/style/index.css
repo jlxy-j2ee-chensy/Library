@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+/* 搜索框组 */
+#search-group {
+	max-width: 480px;
+	margin: 48px auto;
+}
+
+/* 媒体对象（热门图书列表） */
+.media-object {
+	max-height: 72px;
+	max-width: 72px;
+}
