@@ -1,37 +1,43 @@
-package command;
+package jlxy.chensy.db;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class LoginCommand {
+public class User {
 	// private DatabaseCommand database = new
 	// DatabaseCommand("org.gjt.mm.mysql.Driver",
 	// "jdbc:mysql://localhost:3306/resume_control?useSSL=false","root",
-	// "CSY-love");
-	private DatabaseCommand database;
+	// "123456");
+	private Conn database;
 	private String user;
 	private String password;
 	private String clientUser;
 	private String clientPassword;
 
-	public LoginCommand() {
-		this.database = new DatabaseCommand();
+	public User() {
+		this.database = new Conn();
 	}
 
-	/* 账号密码验证 */
-	public boolean isLogin(String clientUser, String clientPassword) {
+	/**
+	 * 验证登录信息
+	 * @param username 用户输入的用户名
+	 * @param password 用户输入的密码
+	 * @return 用户名和密码是否验证成功
+	 */
+	public boolean isLogin(String username, String password) {
 		for (;;) {
 			ResultSet rs = database.selectCommand("SELECT user,password FROM users.");
 			try {
 				rs.next();
 				this.user = rs.getString("user");
 				this.password = rs.getString("password");
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			if ("".equals(clientUser) || "".equals(clientPassword)) {
+			if ("".equals(username) || "".equals(password)) {
 				return false;
 			} else {
-				if (clientUser.equals(user) && clientPassword.equals(password)) {
+				if (username.equals(user) && password.equals(password)) {
 					return true;
 				} else {
 					return false;
