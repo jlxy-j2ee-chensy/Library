@@ -5,7 +5,6 @@ body {
 	background-color: rgba(135, 207, 235, 0.1);
 }
 
-
 /* 顶部和导航栏横条 */
 #top-row, #nav-row {
 	height: 24px;
@@ -15,7 +14,7 @@ body {
 }
 
 /* 顶部横条按钮 */
-#top-row a {
+#top-row a, #top-row span {
 	line-height: 18px;
 	color: azure;
 	margin-left: 8px;
@@ -75,3 +74,9 @@ a.list-group-item:hover {
 	background-color: rgba(135, 207, 235, 0.1);
 }
 
+/* 错误信息 */
+.error {
+	color: #ff8080;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

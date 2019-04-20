@@ -1,28 +1,26 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,java.sql.*" pageEncoding="UTF-8"%>
+<jsp:useBean id="user" scope="page" class="jlxy.chensy.db.User" />
 <%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-
 	if ("login".equals(request.getParameter("action"))) {
-		String txtUsername = request.getParameter("txtUsername");
-		String txtPassword = request.getParameter("txtPassword");
-		String remember = request.getParameter("remember");
-//		out.print("<script>alert('" + txtUsername + " " + txtPassword + " " + remember + "')</script>");
-		if (true) {
-			session.setAttribute("CurrentUser", txtUsername);
-			session.setAttribute("RememberState", "on".equals(remember));
+		String username = request.getParameter("txtUsername");
+		String password = request.getParameter("txtPassword");
+		if (user.login(username, password)) {
+			// 登录成功
+			session.setAttribute("CurrentUser", username);
+			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
-// 		System.out.println("用户名：" + txtUsername);
-// 		System.out.println("密码：" + txtPassword);
-// 		System.out.println("记住：" + remember);
+	}
+
+	if ("logout".equals(request.getParameter("action"))) {
+		// 退出登录
+		session.setAttribute("CurrentUser", null);
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
 
 <title>用户登录－XX图书馆</title>
 
@@ -40,21 +38,29 @@
 </head>
 
 <body>
-	<%@ include file="header.jsp"%>
+	<%@ include file='header.jsp'%>
 
 	<div class="container section">
-		<form name="form1" id="form1" method="post" action="login.jsp?action=login">
+		<form name="form1" id="form1" method="post" action='<%=request.getContextPath() + "/login.jsp?action=login"%>'>
 			<div class="form-group">
+				<%
+					String username = "";
+					if ("login".equals(request.getParameter("action"))) {
+						username = request.getParameter("txtUsername");
+					}
+				%>
 				<label for="txtUsername">用户名</label>
-				<input name="txtUsername" id="txtUsername" type="text" class="form-control" placeholder="用户名">
+				<input name="txtUsername" id="txtUsername" type="text" class="form-control" placeholder="用户名" value='<%=username%>'>
 			</div>
 			<div class="form-group">
 				<label for="txtPassword">密码</label>
 				<input name="txtPassword" id="txtPassword" type="password" class="form-control" placeholder="密码">
 			</div>
-			<div class="checkbox">
-				<label><input name="remember" id="remember" type="checkbox">记住登录状态</label>
-			</div>
+			<%
+				// 登录失败提示
+				if ("login".equals(request.getParameter("action")))
+					out.print("<div class='error'>" + user.getExtra() + "</div>");
+			%>
 			<button name="btnSubmit" id="btnSubmit" type="submit" class="btn btn-default">登录</button>
 		</form>
 	</div>

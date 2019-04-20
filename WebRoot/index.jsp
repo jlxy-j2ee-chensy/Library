@@ -1,14 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
 
 <title>XX图书馆首页</title>
 
@@ -35,10 +29,10 @@
 		<div class="row">
 			<!-- 搜索框组 -->
 			<div class="col-md-12">
-				<form action="book-serach.jsp" method="post">
+				<form action="#" method="post">
 					<div class="input-group" id="search-group">
-						<input class="form-control" type="text" placeholder="请输入关键字" /> <span
-							class="input-group-btn">
+						<input class="form-control" type="text" placeholder="请输入关键字" />
+						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit">搜索</button>
 						</span>
 					</div>
@@ -50,65 +44,48 @@
 			<div class="col-md-6">
 				<h3>新闻公告</h3>
 				<div class="list-group">
-					<a class="list-group-item" href="#">
-						新闻1：xxxxxxxxxxxx
-						<div class="pull-right small">xx月xx日</div>
+					<%
+						String title;
+						String date;
+						for (int i = 1; i <= 7; i++) {
+							title = "新闻" + i + "：xxxxxxxxxxxx";
+							date = "4月" + i + "日";
+					%>
+					<a class="list-group-item" href="#">	
+						<%=title%>
+						<div class="pull-right small"><%=date%></div>
 					</a>
-					<a class="list-group-item" href="#">
-						新闻1：xxxxxxxxxxxx
-						<div class="pull-right small">xx月xx日</div>
-					</a>
-					<a class="list-group-item" href="#">
-						新闻1：xxxxxxxxxxxx
-						<div class="pull-right small">xx月xx日</div>
-					</a>
-					<a class="list-group-item" href="#">
-						新闻1：xxxxxxxxxxxx
-						<div class="pull-right small">xx月xx日</div>
-					</a>
-					<a class="list-group-item" href="#">
-						新闻1：xxxxxxxxxxxx
-						<div class="pull-right small">xx月xx日</div>
-					</a>
+					<%
+						}
+					%>
 				</div>
 			</div>
 			<!-- 热门图书 -->
 			<div class="col-md-6">
 				<h3>热门图书</h3>
 				<div class="list-group">
+					<%
+						String picture;
+						String description;
+						for (int i = 1; i <= 3; i++) {
+							title = "小王子";
+							picture = "小王子.jpg";
+							description = "《小王子》描写了居住在遥远星球上的小王子，因为与骄傲的玫瑰花吵架，离开自己的星球，去众多不同星球旅行，最后来到地球，邂逅了落难的飞行员。……";
+					%>
 					<a class="list-group-item" href="#">
 						<div class="media">
 							<div class="media-left">
-								<img class="media-object" src="/Library/image/book/小王子.jpg" alt="小王子" />
+								<img class="media-object" src='<%=request.getContextPath() + "/image/book/" + picture%>' alt="<%=title%>" />
 							</div>
 							<div class="media-body">
-								<h4 class="media-heading">小王子</h4>
-								<small>《小王子》描写了居住在遥远星球上的小王子，因为与骄傲的玫瑰花吵架，离开自己的星球，去众多不同星球旅行，最后来到地球，邂逅了落难的飞行员。……</small>
+								<h4 class="media-heading"><%=title%></h4>
+								<small><%=description%></small>
 							</div>
 						</div>
 					</a>
-					<a class="list-group-item" href="#">
-						<div class="media">
-							<div class="media-left">
-								<img class="media-object" src="/Library/image/book/小王子.jpg" alt="小王子" />
-							</div>
-							<div class="media-body">
-								<h4 class="media-heading">小王子</h4>
-								<small>《小王子》描写了居住在遥远星球上的小王子，因为与骄傲的玫瑰花吵架，离开自己的星球，去众多不同星球旅行，最后来到地球，邂逅了落难的飞行员。……</small>
-							</div>
-						</div>
-					</a>
-					<a class="list-group-item" href="#">
-						<div class="media">
-							<div class="media-left">
-								<img class="media-object" src="/Library/image/book/小王子.jpg" alt="小王子" />
-							</div>
-							<div class="media-body">
-								<h4 class="media-heading">小王子</h4>
-								<small>《小王子》描写了居住在遥远星球上的小王子，因为与骄傲的玫瑰花吵架，离开自己的星球，去众多不同星球旅行，最后来到地球，邂逅了落难的飞行员。……</small>
-							</div>
-						</div>
-					</a>
+					<%
+						}
+					%>
 				</div>
 			</div>
 		</div>

@@ -5,8 +5,22 @@
 	<div class="container">
 		<div class="pull-left">2019/03/26 08:00:00</div>
 		<div class="pull-right">
-			<a type="button" class="btn-link" href="/Library/login.jsp">登录</a>
-			<a type="button" class="btn-link" href="/Library/register.jsp">注册</a>
+			<%
+				if (session.getAttribute("CurrentUser") == null) {
+			%>
+			<!-- 未登录时 -->
+			<a type="button" class="btn-link" href='<%=request.getContextPath() + "/login.jsp"%>'>登录</a>
+			<a type="button" class="btn-link" href='<%=request.getContextPath() + "/register.jsp"%>'>注册</a>
+			<%
+				} else {
+			%>
+			<!-- 已登录时 -->
+			<span><%="欢迎，" + session.getAttribute("CurrentUser") + "！"%></span>
+			<a type="button" class="btn-link" href="#">用户中心</a>
+			<a type="button" class="btn-link" href='<%=request.getContextPath() + "/login.jsp" + "?action=logout"%>'>退出登录</a>
+			<%
+				}
+			%>
 		</div>
 	</div>
 </div>
@@ -18,7 +32,7 @@
 <div id="nav-row">
 	<div class="container">
 		<ul class="nav nav-pills nav-justified">
-			<li role="presentation"><a href="#">图书馆首页</a></li>
+			<li role="presentation"><a href='<%=request.getContextPath() + "/index.jsp"%>'>图书馆首页</a></li>
 			<li role="presentation"><a href="#">图书资源</a></li>
 			<li role="presentation"><a href="#">新闻公告</a></li>
 			<li role="presentation"><a href="#">关于图书馆</a></li>
