@@ -17,7 +17,7 @@
 			<!-- 已登录时 -->
 			<span><%="欢迎，" + session.getAttribute("CurrentUser") + "！"%></span>
 			<a type="button" class="btn-link" href="#">用户中心</a>
-			<a type="button" class="btn-link" href='<%=request.getContextPath() + "/login.jsp" + "?action=logout"%>'>退出登录</a>
+			<a type="button" class="btn-link" href='<%=request.getContextPath() + "/index.jsp" + "?action=logout"%>'>退出登录</a>
 			<%
 				}
 			%>

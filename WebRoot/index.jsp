@@ -1,5 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-
+<%
+	if ("logout".equals(request.getParameter("action"))) {
+		// 退出登录
+		session.setAttribute("CurrentUser", null);
+	}
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -10,10 +15,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap（离线） -->
+<!-- Bootstrap样式 -->
 <link rel="stylesheet" type="text/css" href="/Library/style/bootstrap.min.css" />
-<!-- Bootstrap（在线） -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- 通用样式 -->
 <link rel="stylesheet" type="text/css" href="/Library/style/common.css" />
 <!-- 首页专用样式 -->
@@ -51,7 +54,7 @@
 							title = "新闻" + i + "：xxxxxxxxxxxx";
 							date = "4月" + i + "日";
 					%>
-					<a class="list-group-item" href="#">	
+					<a class="list-group-item" href="#">
 						<%=title%>
 						<div class="pull-right small"><%=date%></div>
 					</a>
