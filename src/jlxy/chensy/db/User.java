@@ -9,12 +9,10 @@ public class User {
 	private String extra;
 
 	public String getExtra() {
-		return extra;
+		return this.extra;
 	}
 
 	public User() {
-		this.conn = new Conn();
-		extra = "初始化";
 	}
 
 	/**
@@ -26,33 +24,43 @@ public class User {
 	 */
 	public boolean login(String username, String password) {
 		if (username == null || "".equals(username)) {
-			extra = "用户名不能为空";
+			extra = "请输入用户名";
 			return false;
 		}
 		if (password == null || "".equals(password)) {
-			extra = "密码不能为空";
+			extra = "请输入密码";
+			return false;
 		}
 
+		// 根据用户名查询
+		this.conn = new Conn();
 		String sql = "SELECT password FROM user WHERE username='" + username + "'";
 		ResultSet rs = conn.select(sql);
+
 		try {
-			if (rs.next()) {
-				if (password.equals(rs.getString("password"))) {
-					extra = "登录验证成功";
-					return true;
-				} else {
-					extra = "密码错误";
-					return false;
-				}
-			} else {
+			// 查询结果为空
+			if (!rs.next()) {
 				extra = "用户不存在";
+				conn.close();
+				return false;
+			}
+
+			// 密码不匹配
+			if (!password.equals(rs.getString("password"))) {
+				extra = "密码错误";
+				conn.close();
 				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			extra = "数据库连接失败，请重试";
+			conn.close();
 			return false;
 		}
+
+		extra = "登录成功";
+		conn.close();
+		return true;
 	}
 
 	/**
@@ -75,26 +83,29 @@ public class User {
 			return false;
 		}
 		if (!password.equals(password2)) {
-			extra = "密码输入不一致";
+			extra = "两次密码输入不一致";
 			return false;
 		}
 
+		this.conn = new Conn();
 		String sql = "SELECT * FROM user WHERE username='" + username + "'";
 		ResultSet rs = conn.select(sql);
 		try {
 			if (rs.next()) {
 				extra = "用户已存在";
+				conn.close();
 				return false;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			extra = "数据库连接失败，请重试";
+			conn.close();
 			return false;
 		}
 
 		sql = "INSERT INTO user(username, password) VALUES ('" + username + "', '" + password + "')";
 		conn.update(sql);
+		conn.close();
 		extra = "注册成功";
 		return true;
 	}
