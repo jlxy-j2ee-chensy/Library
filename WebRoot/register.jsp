@@ -52,13 +52,16 @@
 						username = request.getParameter("txtUsername");
 					}
 				%>
-				<label for="txtUsername">用户名</label> <input name="txtUsername" id="txtUsername" type="text" class="form-control" placeholder="用户名" value='<%=username%>'>
+				<label for="txtUsername">用户名</label>
+				<input name="txtUsername" id="txtUsername" type="text" class="form-control" placeholder="用户名" value='<%=username%>'>
 			</div>
 			<div class="form-group">
-				<label for="txtPassword">密码</label> <input name="txtPassword" id="txtPassword" type="password" class="form-control" placeholder="密码">
+				<label for="txtPassword">密码</label>
+				<input name="txtPassword" id="txtPassword" type="password" class="form-control" placeholder="密码">
 			</div>
 			<div class="form-group">
-				<label for="txtPassword">重复密码</label> <input name="txtPassword2" id="txtPassword2" type="password" class="form-control" placeholder="重复密码">
+				<label for="txtPassword">重复密码</label>
+				<input name="txtPassword2" id="txtPassword2" type="password" class="form-control" placeholder="重复密码">
 			</div>
 			<%
 				// 注册失败提示
