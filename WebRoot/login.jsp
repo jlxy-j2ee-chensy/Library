@@ -16,7 +16,6 @@
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
 	}
-
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -59,8 +58,11 @@
 			</div>
 			<%
 				// 登录失败提示
-				if ("submit".equals(request.getParameter("action")))
-					out.print("<div class='error'>" + user.getExtra() + "</div>");
+				if ("submit".equals(request.getParameter("action"))) {
+			%>
+			<div class="error"><%=user.getExtra()%></div>
+			<%
+				}
 			%>
 			<button name="btnSubmit" id="btnSubmit" type="submit" class="btn btn-default">登录</button>
 		</form>
