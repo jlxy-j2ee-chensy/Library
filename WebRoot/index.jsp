@@ -72,7 +72,7 @@
 						String description;
 						for (int i = 1; i <= 3; i++) {
 							title = "小王子";
-							picture = "小王子.jpg";
+							picture = "Le Petit Prince.jpg";
 							description = "《小王子》描写了居住在遥远星球上的小王子，因为与骄傲的玫瑰花吵架，离开自己的星球，去众多不同星球旅行，最后来到地球，邂逅了落难的飞行员。……";
 					%>
 					<a class="list-group-item" href="#">
