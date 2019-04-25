@@ -1,0 +1,16 @@
+-- 请先创建数据库library（参考课本修改编码等）
+
+USE library;
+
+-- 用户表（临时）
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+`id`  int UNSIGNED NOT NULL AUTO_INCREMENT ,
+`username`  varchar(50) NOT NULL ,
+`password`  varchar(255) NOT NULL ,
+PRIMARY KEY (`id`)
+);
+INSERT INTO `user`(username, password) VALUES
+('admin', 'admin'), 
+('user1', 'user1'), 
+('user2', 'user2');
