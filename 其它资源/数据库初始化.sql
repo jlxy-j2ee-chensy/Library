@@ -7,17 +7,20 @@ DROP TABLE
 IF EXISTS `user`;
 
 CREATE TABLE `user` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`username` VARCHAR (50) NOT NULL,
-	`password` VARCHAR (255) NOT NULL,
+	`id` INT (10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR (50) NOT NULL COMMENT '用户名',
+	`password` VARCHAR (255) NOT NULL COMMENT '密码',
+	`role` enum ('admin', 'member') NOT NULL DEFAULT 'member' COMMENT '用户角色',
+	`register_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '注册时间',
+	`login_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '登录时间',
 	PRIMARY KEY (`id`)
 );
 
-INSERT INTO `user` (username, password)
+INSERT INTO `user` (username, PASSWORD, role)
 VALUES
-	('admin', 'admin'),
-	('user1', 'user1'),
-	('user2', 'user2');
+	('admin', 'admin', 'admin'),
+	('user1', 'user1', 'member'),
+	('user2', 'user2', 'member');
 
 -- 图书表（临时）
 DROP TABLE
