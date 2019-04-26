@@ -2,6 +2,8 @@ package jlxy.chensy.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class User {
@@ -58,8 +60,16 @@ public class User {
 			return false;
 		}
 
-		extra = "登录成功";
+		// 获取当前日期时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String datetime = df.format(new Date());
+
+		// 更改登录时间
+		sql = "UPDATE user SET login_time='" + datetime + "' WHERE username='" + username + "'";
+		conn.update(sql);
+
 		conn.close();
+		extra = "登录成功";
 		return true;
 	}
 
@@ -103,7 +113,12 @@ public class User {
 			return false;
 		}
 
-		sql = "INSERT INTO user(username, password) VALUES ('" + username + "', '" + password + "')";
+		// 获取当前日期时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String datetime = df.format(new Date());
+
+		sql = "INSERT INTO user(username, password, register_time, login_time) ";
+		sql += "VALUES ('" + username + "', '" + password + "', '" + datetime + "', '" + datetime + "')";
 		conn.update(sql);
 		conn.close();
 		extra = "注册成功";
