@@ -46,11 +46,11 @@
 			<!-- 新闻公告 -->
 			<div class="col-md-6">
 				<h3>新闻公告</h3>
-				<div class="list-group">
+				<div id="index_news" class="list-group">
 					<%
 						String title;
 						String date;
-						for (int i = 1; i <= 7; i++) {
+						for (int i = 1; i <= 6; i++) {
 							title = "新闻" + i + "：xxxxxxxxxxxx";
 							date = "4月" + i + "日";
 					%>
@@ -65,31 +65,7 @@
 			</div>
 			<!-- 热门图书 -->
 			<div class="col-md-6">
-				<h3>热门图书</h3>
-				<div class="list-group">
-					<%
-						String picture;
-						String description;
-						for (int i = 1; i <= 3; i++) {
-							title = "小王子";
-							picture = "Le Petit Prince.jpg";
-							description = "《小王子》描写了居住在遥远星球上的小王子，因为与骄傲的玫瑰花吵架，离开自己的星球，去众多不同星球旅行，最后来到地球，邂逅了落难的飞行员。……";
-					%>
-					<a class="list-group-item" href="#">
-						<div class="media">
-							<div class="media-left">
-								<img class="media-object" src='<%=request.getContextPath() + "/image/book/" + picture%>' alt="<%=title%>" />
-							</div>
-							<div class="media-body">
-								<h4 class="media-heading"><%=title%></h4>
-								<small><%=description%></small>
-							</div>
-						</div>
-					</a>
-					<%
-						}
-					%>
-				</div>
+				<%@ include file="index_books.jsp" %>
 			</div>
 		</div>
 	</div>
