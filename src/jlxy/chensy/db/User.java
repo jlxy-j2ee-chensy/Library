@@ -14,9 +14,6 @@ public class User {
 		return this.extra;
 	}
 
-	public User() {
-	}
-
 	/**
 	 * 验证登录信息
 	 * 修改extra，存放额外信息
@@ -35,7 +32,7 @@ public class User {
 		}
 
 		// 根据用户名查询
-		this.conn = new Conn();
+		this.conn = new Conn("User.login(" + username + ", ...)");
 		String sql = "SELECT password FROM user WHERE username='" + username + "'";
 		ResultSet rs = conn.select(sql);
 
@@ -43,20 +40,20 @@ public class User {
 			// 查询结果为空
 			if (!rs.next()) {
 				extra = "用户不存在";
-				conn.close();
+				conn.close("User.login - 找不到指定用户");
 				return false;
 			}
 
 			// 密码不匹配
 			if (!password.equals(rs.getString("password"))) {
 				extra = "密码错误";
-				conn.close();
+				conn.close("User.login - 用户名密码不匹配");
 				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			extra = "数据库连接失败，请重试";
-			conn.close();
+			conn.close("User.login - SQLException");
 			return false;
 		}
 
@@ -68,7 +65,7 @@ public class User {
 		sql = "UPDATE user SET login_time='" + datetime + "' WHERE username='" + username + "'";
 		conn.update(sql);
 
-		conn.close();
+		conn.close("User.login - 登录成功");
 		extra = "登录成功";
 		return true;
 	}
@@ -97,19 +94,19 @@ public class User {
 			return false;
 		}
 
-		this.conn = new Conn();
+		this.conn = new Conn("User.register(" + username + ", ...)");
 		String sql = "SELECT * FROM user WHERE username='" + username + "'";
 		ResultSet rs = conn.select(sql);
 		try {
 			if (rs.next()) {
 				extra = "用户已存在";
-				conn.close();
+				conn.close("User.register - 指定用户名已存在");
 				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			extra = "数据库连接失败，请重试";
-			conn.close();
+			conn.close("User.register - SQLException");
 			return false;
 		}
 
@@ -120,7 +117,7 @@ public class User {
 		sql = "INSERT INTO user(username, password, register_time, login_time) ";
 		sql += "VALUES ('" + username + "', '" + password + "', '" + datetime + "', '" + datetime + "')";
 		conn.update(sql);
-		conn.close();
+		conn.close("User.register - 注册成功");
 		extra = "注册成功";
 		return true;
 	}
