@@ -3,3 +3,6 @@
 .project
 .settings/*
 build/*
+WebRoot/WEB-INF/classes/jlxy/chensy/db/Conn.class
+WebRoot/WEB-INF/classes/jlxy/chensy/db/Book.class
+WebRoot/WEB-INF/classes/jlxy/chensy/db/User.class
