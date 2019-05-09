@@ -9,7 +9,7 @@ public class Book {
 
 	public int count() {
 		int count = 0;
-		this.conn = new Conn(); // 开启连接
+		this.conn = new Conn("Book.count()"); // 开启连接
 		String sql = "SELECT COUNT(*) c FROM book";
 		ResultSet resultSet = conn.select(sql);
 		try {
@@ -18,13 +18,13 @@ public class Book {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		conn.close(); // 关闭连接
+		conn.close("Book.count - 查询完毕"); // 关闭连接
 		return count;
 	}
 
 	public HashMap<String, String> getInfoById(int id) {
 		HashMap<String, String> info = new HashMap<String, String>();
-		this.conn = new Conn(); // 开启连接
+		this.conn = new Conn("Book.getInfoById(" + id + ")"); // 开启连接
 		String sql = "SELECT * FROM book WHERE id=" + id;
 		ResultSet resultSet = conn.select(sql);
 		try {
@@ -38,7 +38,7 @@ public class Book {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		conn.close(); // 关闭连接
+		conn.close("Book.getInfoById - 查询完毕"); // 关闭连接
 		return info;
 	}
 }

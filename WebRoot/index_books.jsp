@@ -5,6 +5,7 @@
 <div id="index_books" class="list-group">
 	<%
 		String hb_title;
+		String hb_subtitle = new String();
 		String hb_picture;
 		String hb_description;
 		HashSet<Integer> hashSet = new HashSet<Integer>();
@@ -16,7 +17,9 @@
 			HashMap<String, String> info = book.getInfoById(i);
 			hb_title = info.get("title");
 			if (info.get("subtitle") != null)
-				hb_title = hb_title + "：" + info.get("subtitle");
+				hb_subtitle = "：" + info.get("subtitle");
+			else
+				hb_subtitle = "";
 			hb_picture = info.get("ISBN") + ".jpg";
 			hb_description = info.get("description");
 	%>
@@ -26,7 +29,7 @@
 				<img class="media-object" src='<%=request.getContextPath() + "/image/book/" + hb_picture%>' alt="<%=hb_title%>" />
 			</div>
 			<div class="media-body">
-				<h4 class="media-heading"><%=hb_title%></h4>
+				<h4 class="media-heading"><%=hb_title%><%=hb_subtitle %></small></h4>
 				<small><%=hb_description%></small>
 			</div>
 		</div>
