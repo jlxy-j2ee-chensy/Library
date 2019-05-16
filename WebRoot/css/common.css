@@ -13,6 +13,10 @@ body {
 	background-color: deepskyblue;
 }
 
+#top-row #time {
+	font-size: small;
+}
+
 /* 顶部横条按钮 */
 #top-row a, #top-row span {
 	line-height: 18px;

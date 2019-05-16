@@ -31,11 +31,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-<!-- Bootstrap样式 -->
-<link rel="stylesheet" type="text/css" href="/Library/style/bootstrap.min.css" />
-<!-- 通用样式 -->
-<link rel="stylesheet" type="text/css" href="/Library/style/common.css" />
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="/Library/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Library/css/common.css" />
+<!-- js -->
+<script src="/Library/js/jquery-3.4.1.min.js"></script>
+<script src="/Library/js/bootstrap.min.js"></script>
 
 </head>
 

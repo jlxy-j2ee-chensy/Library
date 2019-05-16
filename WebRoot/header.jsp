@@ -3,7 +3,8 @@
 <!-- 顶部横条 -->
 <div id="top-row">
 	<div class="container">
-		<div class="pull-left">2019/03/26 08:00:00</div>
+		<script src="/Library/js/time.js"></script>
+		<div id="time" class="pull-left"></div>
 		<div class="pull-right">
 			<%
 				if (session.getAttribute("CurrentUser") == null) {
@@ -31,11 +32,18 @@
 <!-- 导航条 -->
 <div id="nav-row">
 	<div class="container">
-		<ul class="nav nav-pills nav-justified">
+		<ul class="nav nav-pills nav-justified hidden-xs">
+			<li role="presentation"><a href='<%=request.getContextPath() + "/index.jsp"%>'>图书馆首页</a></li>
+			<li role="presentation"><a href="#">图书资源</a></li>
+			<li role="presentation"><a href="#">新闻公告</a></li>
+			<li role="presentation"><a href="#">关于图书馆</a></li>
+		</ul>
+		<ul class="nav nav-pills visible-xs">
 			<li role="presentation"><a href='<%=request.getContextPath() + "/index.jsp"%>'>图书馆首页</a></li>
 			<li role="presentation"><a href="#">图书资源</a></li>
 			<li role="presentation"><a href="#">新闻公告</a></li>
 			<li role="presentation"><a href="#">关于图书馆</a></li>
 		</ul>
 	</div>
+</div>
 </div>
