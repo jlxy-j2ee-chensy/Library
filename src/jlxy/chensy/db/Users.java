@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class User {
+public class Users {
 	private Conn conn;
 	private String extra;
 

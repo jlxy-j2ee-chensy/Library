@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*,java.sql.*" pageEncoding="UTF-8"%>
-<jsp:useBean id="user" scope="page" class="jlxy.chensy.db.User" />
+<jsp:useBean id="users" scope="page" class="jlxy.chensy.db.Users" />
 <%
 	// 若已处于登录状态，则跳转至首页
 	if (session.getAttribute("CurrentUser") != null) {
@@ -12,7 +12,7 @@
 		args.put("username", request.getParameter("txtUsername"));
 		args.put("password", request.getParameter("txtPassword"));
 		args.put("password2", request.getParameter("txtPassword2"));
-		if (user.register(args)) {
+		if (users.register(args)) {
 			// 注册成功，登录用户
 			out.print("<script>alert('注册成功！');window.location.href('index.jsp');</script>");
 			session.setAttribute("CurrentUser", args.get("username"));
@@ -40,8 +40,8 @@
 
 </head>
 
-<body>
-	<%@ include file='header.jsp'%>
+<body onload="time();">
+	<%@ include file="header.jsp"%>
 
 	<div class="container section">
 		<form name="form1" id="form1" method="post" action='<%=request.getContextPath() + "/register.jsp?action=submit"%>'>
@@ -67,7 +67,7 @@
 			<%
 				// 注册失败提示
 				if ("submit".equals(request.getParameter("action")))
-					out.print("<div class='error'>" + user.getExtra() + "</div>");
+					out.print("<div class='error'>" + users.getExtra() + "</div>");
 			%>
 			<button name="btnSubmit" id="btnSubmit" type="submit" class="btn btn-default">注册</button>
 		</form>

@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*,java.sql.*" pageEncoding="UTF-8"%>
-<jsp:useBean id="user" scope="page" class="jlxy.chensy.db.User" />
+<jsp:useBean id="users" scope="page" class="jlxy.chensy.db.Users" />
 <%
 	// 若已处于登录状态，则跳转至首页
 	if (session.getAttribute("CurrentUser") != null) {
@@ -10,7 +10,7 @@
 	if ("submit".equals(request.getParameter("action"))) {
 		String username = request.getParameter("txtUsername");
 		String password = request.getParameter("txtPassword");
-		if (user.login(username, password)) {
+		if (users.login(username, password)) {
 			// 登录成功
 			session.setAttribute("CurrentUser", username);
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
@@ -38,8 +38,8 @@
 
 </head>
 
-<body>
-	<%@ include file='header.jsp'%>
+<body onload="time();">
+	<%@ include file="header.jsp"%>
 
 	<div class="container section">
 		<form name="form1" id="form1" method="post" action='<%=request.getContextPath() + "/login.jsp?action=submit"%>'>
@@ -62,7 +62,7 @@
 				// 登录失败提示
 				if ("submit".equals(request.getParameter("action"))) {
 			%>
-			<div class="error"><%=user.getExtra()%></div>
+			<div class="error"><%=users.getExtra()%></div>
 			<%
 				}
 			%>

@@ -64,6 +64,13 @@ footer a {
 	min-height: 300px;
 }
 
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.table-hover>tbody>tr:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 #nav-row a:hover {
 	background-color: lightskyblue;
 }
@@ -83,4 +90,8 @@ a.list-group-item:hover {
 	color: #ff8080;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+abbr {
+	text-decoration: none;
 }

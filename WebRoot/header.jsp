@@ -34,10 +34,11 @@
 	<div class="container">
 		<ul class="nav nav-pills nav-justified hidden-xs">
 			<li role="presentation"><a href='<%=request.getContextPath() + "/index.jsp"%>'>图书馆首页</a></li>
-			<li role="presentation"><a href="#">图书资源</a></li>
+			<li role="presentation"><a href='<%=request.getContextPath() + "/book_list.jsp"%>'>图书资源</a></li>
 			<li role="presentation"><a href="#">新闻公告</a></li>
 			<li role="presentation"><a href="#">关于图书馆</a></li>
 		</ul>
+		<!-- 窄屏幕 -->
 		<ul class="nav nav-pills visible-xs">
 			<li role="presentation"><a href='<%=request.getContextPath() + "/index.jsp"%>'>图书馆首页</a></li>
 			<li role="presentation"><a href="#">图书资源</a></li>

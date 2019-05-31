@@ -1,36 +1,30 @@
-<%@ page language="java" import="java.util.*,java.sql.*" pageEncoding="UTF-8"%>
-<jsp:useBean id="book" scope="page" class="jlxy.chensy.db.Book" />
+<%@ page language="java" import="java.util.*,java.sql.*,jlxy.chensy.db.*" pageEncoding="UTF-8"%>
+<jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
 
 <h3>热门图书</h3>
 <div id="index_books" class="list-group">
 	<%
-		String hb_title;
-		String hb_subtitle = new String();
-		String hb_picture;
-		String hb_description;
+		// 生成3个随机不同的数
+		int count = books.count();
 		HashSet<Integer> hashSet = new HashSet<Integer>();
-		int count = book.count();
 		Random random = new Random();
 		while (hashSet.size() < 3)
 			hashSet.add(random.nextInt(count) + 1);
+
+		// 显示3本书的信息
+		Book book = null;
 		for (int i : hashSet) {
-			HashMap<String, String> info = book.getInfoById(i);
-			hb_title = info.get("title");
-			if (info.get("subtitle") != null)
-				hb_subtitle = "：" + info.get("subtitle");
-			else
-				hb_subtitle = "";
-			hb_picture = info.get("ISBN") + ".jpg";
-			hb_description = info.get("description");
+			book = books.getBookById(i);
 	%>
-	<a class="list-group-item" href="#">
+	<a class="list-group-item" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + i%>'>
 		<div class="media">
 			<div class="media-left">
-				<img class="media-object" src='<%=request.getContextPath() + "/image/book/" + hb_picture%>' alt="<%=hb_title%>" />
+				<img class="media-object" src='<%=request.getContextPath() + book.getPicture()%>' alt="<%=book.getTitle()%>" />
 			</div>
 			<div class="media-body">
-				<h4 class="media-heading"><%=hb_title%><%=hb_subtitle %></small></h4>
-				<small><%=hb_description%></small>
+				<h4 class="media-heading"><%=book.getTitle()%><%=book.getFullTitle()%></small>
+				</h4>
+				<small><%=book.getDescription()%></small>
 			</div>
 		</div>
 	</a>
