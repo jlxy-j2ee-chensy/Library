@@ -19,12 +19,12 @@
 	<a class="list-group-item" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + i%>'>
 		<div class="media">
 			<div class="media-left">
-				<img class="media-object" src='<%=request.getContextPath() + book.getPicture()%>' alt="<%=book.getTitle()%>" />
+				<img class="media-object" src='<%=request.getContextPath() + book.getDisplayPicture()%>' alt="<%=book.getDisplayFullTitle()%>" />
 			</div>
 			<div class="media-body">
-				<h4 class="media-heading"><%=book.getTitle()%><%=book.getFullTitle()%></small>
+				<h4 class="media-heading"><%=book.getDisplayFullTitle()%></small>
 				</h4>
-				<small><%=book.getDescription()%></small>
+				<small><%=book.getDisplayDescription()%></small>
 			</div>
 		</div>
 	</a>

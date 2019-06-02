@@ -1,8 +1,6 @@
 <%@ page language="java" import="java.util.*,java.sql.*,jlxy.chensy.db.*" pageEncoding="UTF-8"%>
 <jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
-<%
-	ArrayList<Book> list = books.getAllBooks();
-%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -25,6 +23,13 @@
 	<%@ include file="header.jsp"%>
 
 	<div class="container section">
+
+		<%@ include file="book_search.jsp"%>
+
+		<%
+			ArrayList<Book> list = books.search(search);
+		%>
+		共用<%=list.size()%>条结果。
 		<table class="table table-hover table-striped" style="font-size: small;">
 			<tr>
 				<th>书名</th>
@@ -36,10 +41,10 @@
 			<tr>
 				<td>
 					<a href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + book.getId()%>'>
-						<%=book.getFullTitle()%>
+						<%=book.getDisplayFullTitle()%>
 					</a>
 				</td>
-				<td><%=book.getAuthor()%></td>
+				<td><%=book.getDisplayAuthor()%></td>
 			</tr>
 			<%
 				}

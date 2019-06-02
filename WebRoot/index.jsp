@@ -33,9 +33,9 @@
 		<div class="row">
 			<!-- 搜索框组 -->
 			<div class="col-md-12">
-				<form action="#" method="post">
+				<form action='<%=request.getContextPath() + "/book_list.jsp"%>' method="post">
 					<div class="input-group" id="search-group">
-						<input class="form-control" type="text" placeholder="请输入关键字" />
+						<input class="form-control" type="text" placeholder="请输入关键字" name="text" />
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit">搜索</button>
 						</span>
@@ -66,7 +66,7 @@
 			</div>
 			<!-- 热门图书 -->
 			<div class="col-md-6">
-				<%@ include file="index_books.jsp" %>
+				<%@ include file="index_books.jsp"%>
 			</div>
 		</div>
 	</div>

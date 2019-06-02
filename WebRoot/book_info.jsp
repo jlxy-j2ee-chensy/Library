@@ -40,63 +40,63 @@
 		%>
 		<div class="row">
 			<div class="col-md-3">
-				<img alt="<%=book.getTitle()%>" src="<%=request.getContextPath() + book.getPicture()%>" style="max-width: 100%; float: right;">
+				<img alt="<%=book.getDisplayTitle()%>" src="<%=request.getContextPath() + book.getDisplayPicture()%>" style="max-width: 100%; float: right;">
 			</div>
 			<div class="col-md-7">
-				<h2><%=book.getTitle()%><small style="margin-left: 8px"><%=book.getSubtitle()%></small>
+				<h2><%=book.getDisplayTitle()%><small style="margin-left: 8px"><%=book.getDisplaySubtitle()%></small>
 				</h2>
-				<div><%=book.getSeries()%></div>
-				<div><%=book.getAuthor()%></div>
+				<div><%=book.getDisplaySeries()%></div>
+				<div><%=book.getDisplayAuthor()%></div>
 				<table class="table table-condensed" style="margin-top: 8px; font-size: small;">
 					<tr>
 						<td style="width: 20%">
 							<abbr title="图书在版编目（Cataloguing in Publication）">CIP</abbr>
 						</td>
-						<td style="width: 30%"><%=book.getCIP()%></td>
+						<td style="width: 30%"><%=book.getDisplayCIP()%></td>
 						<td style="width: 20%">
 							<abbr title="国际标准书号（International Standard Book Number）">ISBN</abbr>
 						</td>
-						<td style="width: 30%"><%=book.getISBN()%></td>
+						<td style="width: 30%"><%=book.getDisplayISBN()%></td>
 					</tr>
 					<tr>
 						<td>出版单位</td>
-						<td colspan="3"><%=book.getPub_ins()%></td>
+						<td colspan="3"><%=book.getDisplayPub_ins()%></td>
 					</tr>
 					<tr>
 						<td>出版地</td>
-						<td><%=book.getPub_loc()%></td>
+						<td><%=book.getDisplayPub_loc()%></td>
 						<td>出版时间</td>
-						<td><%=book.getPub_time()%></td>
+						<td><%=book.getDisplayPub_time()%></td>
 					</tr>
 					<tr>
 						<td>版次</td>
-						<td><%=book.getNum_edit()%></td>
+						<td><%=book.getDisplayNum_edit()%></td>
 						<td>印次</td>
-						<td><%=book.getNum_print()%></td>
+						<td><%=book.getDisplayNum_print()%></td>
 					</tr>
 					<tr>
 						<td>定价（元）</td>
-						<td><%=book.getPrice()%></td>
+						<td><%=book.getDisplayPrice()%></td>
 						<td>正文语种</td>
-						<td><%=book.getLanguage()%></td>
+						<td><%=book.getDisplayLanguage()%></td>
 					</tr>
 					<tr>
 						<td>开本或尺寸</td>
-						<td><%=book.getSize()%></td>
+						<td><%=book.getDisplaySize()%></td>
 						<td>装帧方式</td>
-						<td><%=book.getBinding()%></td>
+						<td><%=book.getDisplayBinding()%></td>
 					</tr>
 					<tr>
 						<td>中图法分类</td>
-						<td colspan="3"><%=book.getCategory()%></td>
+						<td colspan="3"><%=book.getDisplayCategory()%></td>
 					</tr>
 					<tr>
 						<td>主题词</td>
-						<td colspan="3"><%=book.getKeywords()%></td>
+						<td colspan="3"><%=book.getDisplayKeywords()%></td>
 					</tr>
 					<tr>
 						<td>内容提要</td>
-						<td colspan="3"><%=book.getDescription()%></td>
+						<td colspan="3"><%=book.getDisplayDescription()%></td>
 					</tr>
 				</table>
 			</div>

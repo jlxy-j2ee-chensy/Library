@@ -95,3 +95,7 @@ a.list-group-item:hover {
 abbr {
 	text-decoration: none;
 }
+
+.input-group-addon {
+	background-color: #FFFFFF88;
+}
