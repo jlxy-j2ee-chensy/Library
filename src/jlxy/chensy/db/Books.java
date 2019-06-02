@@ -20,6 +20,41 @@ public class Books {
 		return count;
 	}
 
+	public Book getBookById(int id) {
+		Book book = null;
+		Conn conn = new Conn("Books.getBookById(" + id + ")"); // 开启连接
+		String sql = "SELECT * FROM book WHERE id=" + id;
+		ResultSet resultSet = conn.select(sql);
+		try {
+			if (!resultSet.next())
+				return getBookById(1); // 若不存在，则返回ID为1的数据
+			book = parseBook(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		conn.close("Book.getInfoById - 查询完毕"); // 关闭连接
+		return book;
+	}
+
+	public ArrayList<String> getLanguages() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("中文");
+		Conn conn = new Conn("Books.getLanguages()");
+		String sql = "SELECT language, COUNT(*) AS count FROM book GROUP BY language ORDER BY count DESC";
+		ResultSet resultSet = conn.select(sql);
+		try {
+			while (resultSet.next()) {
+				if (resultSet.getString("language") != null) {
+					list.add(resultSet.getString("language"));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		conn.close();
+		return list;
+	}
+
 	/* 不移动resultSet的指针 */
 	private Book parseBook(ResultSet resultSet) {
 		Book book = null;
@@ -60,50 +95,6 @@ public class Books {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return list;
-	}
-
-	public Book getBookById(int id) {
-		Book book = null;
-		Conn conn = new Conn("Books.getBookById(" + id + ")"); // 开启连接
-		String sql = "SELECT * FROM book WHERE id=" + id;
-		ResultSet resultSet = conn.select(sql);
-		try {
-			if (!resultSet.next())
-				return getBookById(1); // 若不存在，则返回ID为1的数据
-			book = parseBook(resultSet);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		conn.close("Book.getInfoById - 查询完毕"); // 关闭连接
-		return book;
-	}
-
-	public ArrayList<Book> getAllBooks() {
-		Conn conn = new Conn("Books.getAllBooks()");
-		String sql = "SELECT * FROM book";
-		ResultSet resultSet = conn.select(sql);
-		ArrayList<Book> list = parseBooks(resultSet);
-		conn.close();
-		return list;
-	}
-
-	public ArrayList<String> getLanguages() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("中文");
-		Conn conn = new Conn("Books.getLanguages()");
-		String sql = "SELECT language, COUNT(*) AS count FROM book GROUP BY language ORDER BY count DESC";
-		ResultSet resultSet = conn.select(sql);
-		try {
-			while (resultSet.next()) {
-				if (resultSet.getString("language") != null) {
-					list.add(resultSet.getString("language"));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		conn.close();
 		return list;
 	}
 
