@@ -2,16 +2,72 @@ package jlxy.chensy.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+
+import jlxy.chensy.common.User;
+import jlxy.chensy.common.Util;
 
 public class Users {
-	private Conn conn;
 	private String extra;
 
 	public String getExtra() {
 		return this.extra;
+	}
+
+	private User getUser(String username) {
+		assert (username != null);
+		Conn conn = new Conn("User.getUser(" + username + ")");
+		String sql = String.format("SELECT * FROM user WHERE username='%s'", username);
+		ResultSet rs = conn.select(sql);
+		try {
+			if (!rs.next()) {
+				conn.close("用户不存在");
+				return null;
+			} else {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setRole(rs.getInt("role"));
+				user.setRegister_time(rs.getDate("register_time"));
+				user.setLogin_time(rs.getDate("login_time"));
+				return user;
+			}
+		} catch (SQLException e) {
+			conn.close("数据库连接失败");
+			return null;
+		}
+	}
+
+	public User update(User user) {
+		assert (user.getUsername() != null);
+		assert (user.getPassword() != null);
+		assert (user.getRole() > 0);
+		if (user.getId() != 0) {
+			// 修改
+			assert (user.getRegister_time() != null);
+			assert (user.getLogin_time() != null);
+			String sql = "UPDATE user SET username='%s', password='%s', role=%d, register_time='%s', login_time='%s' WHERE id=%d;";
+			sql = String.format(sql, user.getUsername(), user.getPassword(), user.getRole(),
+					user.getFormattedRegister_time(), user.getFormattedLogin_time(), user.getId());
+			Conn conn = new Conn();
+			conn.update(sql);
+			conn.close();
+			return getUser(user.getUsername());
+		} else {
+			// 新增
+			assert (user.getRegister_time() == null);
+			assert (user.getLogin_time() == null);
+			user.setRegister_time(new Date());
+			user.setLogin_time(new Date());
+			String sql = "INSERT INTO user(username, password, role, register_time, login_time) VALUES ('%s', '%s', %d, '%s', '%s');";
+			sql = String.format(sql, user.getUsername(), user.getPassword(), user.getRole(),
+					user.getFormattedRegister_time(), user.getFormattedLogin_time());
+			Conn conn = new Conn();
+			conn.update(sql);
+			conn.close();
+			return getUser(user.getUsername());
+		}
 	}
 
 	/**
@@ -19,106 +75,61 @@ public class Users {
 	 * 修改extra，存放额外信息
 	 * @param username 用户输入的用户名
 	 * @param password 用户输入的密码
-	 * @return 用户名和密码是否验证成功
+	 * @return 验证成功则返回用户对象，否则返回null
 	 */
-	public boolean login(String username, String password) {
-		if (username == null || "".equals(username)) {
-			extra = "请输入用户名";
-			return false;
-		}
-		if (password == null || "".equals(password)) {
-			extra = "请输入密码";
-			return false;
-		}
+	public User login(String username, String password) {
+		if (Util.isNullOrEmpty(username) || Util.isNullOrEmpty(password))
+			System.err.println("传入的/用户名或密码为空！");
 
-		// 根据用户名查询
-		this.conn = new Conn("User.login(" + username + ", ...)");
-		String sql = "SELECT password FROM user WHERE username='" + username + "'";
-		ResultSet rs = conn.select(sql);
+		User user = getUser(username);
 
-		try {
-			// 查询结果为空
-			if (!rs.next()) {
-				extra = "用户不存在";
-				conn.close("User.login - 找不到指定用户");
-				return false;
-			}
-
-			// 密码不匹配
-			if (!password.equals(rs.getString("password"))) {
-				extra = "密码错误";
-				conn.close("User.login - 用户名密码不匹配");
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			extra = "数据库连接失败，请重试";
-			conn.close("User.login - SQLException");
-			return false;
+		if (user == null) {
+			extra = "用户不存在！";
+			return null;
 		}
 
-		// 获取当前日期时间
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String datetime = df.format(new Date());
+		if (!password.equals(user.getPassword())) {
+			extra = "密码错误！";
+			return null;
+		}
 
-		// 更改登录时间
-		sql = "UPDATE user SET login_time='" + datetime + "' WHERE username='" + username + "'";
-		conn.update(sql);
+		user.setLogin_time(new Date());
+		this.update(user);
 
-		conn.close("User.login - 登录成功");
 		extra = "登录成功";
-		return true;
+		return user;
 	}
 
 	/**
 	 * 注册用户
 	 * 修改extra，存放额外信息
 	 * @param args 用户在表单中填入的内容（键值对）
-	 * @return 是否注册成功
+	 * @return 注册成功返回用户对象，否则返回null
 	 */
-	public boolean register(HashMap<String, String> args) {
-		String username = args.get("username");
-		String password = args.get("password");
-		String password2 = args.get("password2");
-
+	public User register(String username, String password, String password2) {
 		if (username == null || "".equals(username)) {
 			extra = "用户名不能为空";
-			return false;
+			return null;
 		}
 		if (password == null || "".equals(password)) {
 			extra = "密码不能为空";
-			return false;
+			return null;
 		}
 		if (!password.equals(password2)) {
 			extra = "两次密码输入不一致";
-			return false;
+			return null;
 		}
 
-		this.conn = new Conn("User.register(" + username + ", ...)");
-		String sql = "SELECT * FROM user WHERE username='" + username + "'";
-		ResultSet rs = conn.select(sql);
-		try {
-			if (rs.next()) {
-				extra = "用户已存在";
-				conn.close("User.register - 指定用户名已存在");
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			extra = "数据库连接失败，请重试";
-			conn.close("User.register - SQLException");
-			return false;
+		if (getUser(username) != null) {
+			extra = "用户已存在";
+			return null;
 		}
 
-		// 获取当前日期时间
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String datetime = df.format(new Date());
-
-		sql = "INSERT INTO user(username, password, register_time, login_time) ";
-		sql += "VALUES ('" + username + "', '" + password + "', '" + datetime + "', '" + datetime + "')";
-		conn.update(sql);
-		conn.close("User.register - 注册成功");
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		this.update(user);
 		extra = "注册成功";
-		return true;
+		return user;
 	}
 }

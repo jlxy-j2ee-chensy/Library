@@ -1,10 +1,17 @@
 package jlxy.chensy.db;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import jlxy.chensy.common.Book;
+
 public class Books {
+	/**
+	 * 获取数据库中图书总数
+	 * @return 图书总数
+	 */
 	public int count() {
 		int count = 0;
 		Conn conn = new Conn("Book.count()"); // 开启连接
@@ -20,22 +27,50 @@ public class Books {
 		return count;
 	}
 
-	public Book getBookById(int id) {
+	/**
+	 * 获取数据库中图书最大ID
+	 * @return 最大ID
+	 */
+	public int max() {
+		int max = 0;
+		Conn conn = new Conn();
+		String sql = "SELECT MAX(id) m FROM book";
+		ResultSet resultSet = conn.select(sql);
+		try {
+			resultSet.next();
+			max = resultSet.getInt("m");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		conn.close();
+		return max;
+	}
+
+	/**
+	 * 获取图书信息
+	 * @param id 图书的ID
+	 * @return 图书对象
+	 */
+	public Book getBook(int id) {
 		Book book = null;
-		Conn conn = new Conn("Books.getBookById(" + id + ")"); // 开启连接
+		Conn conn = new Conn("Books.getBook(" + id + ")"); // 开启连接
 		String sql = "SELECT * FROM book WHERE id=" + id;
 		ResultSet resultSet = conn.select(sql);
 		try {
 			if (!resultSet.next())
-				return getBookById(1); // 若不存在，则返回ID为1的数据
+				return null;
 			book = parseBook(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		conn.close("Book.getInfoById - 查询完毕"); // 关闭连接
+		conn.close("Book.getBook - 查询完毕"); // 关闭连接
 		return book;
 	}
 
+	/**
+	 * 获取图书数据中出现的所有语言取值
+	 * @return 字符串对象的线性表，第一项为"中文"
+	 */
 	public ArrayList<String> getLanguages() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("中文");
@@ -115,7 +150,7 @@ public class Books {
 		if (search.getCIP() != null)
 			sql += String.format(" AND CIP='%s'", search.getCIP());
 		if (search.getISBN() != null)
-			sql += String.format(" AND ISBN='%s'", search.getISBN());
+			sql += String.format(" AND ISBN REGEXP '%s'", search.getISBN().replaceAll("(\\d)\\-?", "$1-?"));
 		if (search.getLanguage() != null) {
 			if ("中文".equals(search.getLanguage()))
 				sql += String.format(" AND language is NULL");
@@ -158,5 +193,81 @@ public class Books {
 		books = parseBooks(resultSet);
 		conn.close();
 		return books;
+	}
+
+	public Book update(Book book) {
+		assert (book.getTitle() != null);
+		if (book.getId() != 0) {
+			Conn conn = new Conn();
+			PreparedStatement sql = conn.preparedStatement(
+					"UPDATE book SET title=?,subtitle=?,series=?,author=?,CIP=?,ISBN=?,pub_ins=?,pub_loc=?,pub_time=?,num_edit=?,num_print=?,price=?,language=?,size=?,binding=?,category=?,keywords=?,description=? WHERE id=?");
+			try {
+				sql.setString(1, book.getTitle());
+				sql.setString(2, book.getSubtitle());
+				sql.setString(3, book.getSeries());
+				sql.setString(4, book.getAuthor());
+				sql.setString(5, book.getCIP());
+				sql.setString(6, book.getISBN());
+				sql.setString(7, book.getPub_ins());
+				sql.setString(8, book.getPub_loc());
+				sql.setString(9, book.getPub_time());
+				sql.setInt(10, book.getNum_edit());
+				sql.setInt(11, book.getNum_print());
+				sql.setFloat(12, book.getPrice());
+				sql.setString(13, book.getLanguage());
+				sql.setString(14, book.getSize());
+				sql.setString(15, book.getBinding());
+				sql.setString(16, book.getCategory());
+				sql.setString(17, book.getKeywords());
+				sql.setString(18, book.getDescription());
+				sql.setInt(19, book.getId());
+				sql.executeUpdate();
+			} catch (SQLException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			conn.close();
+			return getBook(book.getId());
+		} else {
+			Conn conn = new Conn();
+			PreparedStatement sql = conn.preparedStatement(
+					"INSERT INTO book (title,subtitle,series,author,CIP,ISBN,pub_ins,pub_loc,pub_time,num_edit,num_print,price,language,size,binding,category,keywords,description)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			try {
+				sql.setString(1, book.getTitle());
+				sql.setString(2, book.getSubtitle());
+				sql.setString(3, book.getSeries());
+				sql.setString(4, book.getAuthor());
+				sql.setString(5, book.getCIP());
+				sql.setString(6, book.getISBN());
+				sql.setString(7, book.getPub_ins());
+				sql.setString(8, book.getPub_loc());
+				sql.setString(9, book.getPub_time());
+				sql.setInt(10, book.getNum_edit());
+				sql.setInt(11, book.getNum_print());
+				sql.setFloat(12, book.getPrice());
+				sql.setString(13, book.getLanguage());
+				sql.setString(14, book.getSize());
+				sql.setString(15, book.getBinding());
+				sql.setString(16, book.getCategory());
+				sql.setString(17, book.getKeywords());
+				sql.setString(18, book.getDescription());
+				sql.executeUpdate();
+			} catch (SQLException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			conn.close();
+			return getBook(max());
+		}
+
+	}
+
+	public void delete(int id) {
+		if (id > 0) {
+			String sql = "DELETE FROM book WHERE id=" + id;
+			Conn conn = new Conn();
+			conn.update(sql);
+			conn.close();
+		}
 	}
 }

@@ -23,6 +23,9 @@ body {
 	color: azure;
 	margin-left: 8px;
 }
+#top-row a {
+	cursor: pointer;
+}
 
 /* 标题下层图片 */
 #title-row {
@@ -65,10 +68,11 @@ footer a {
 }
 
 .table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.05);
+	background-color: rgba(255, 255, 255, 0.05);
 }
+
 .table-hover>tbody>tr:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.5);
 }
 
 #nav-row a:hover {
@@ -98,4 +102,39 @@ abbr {
 
 .input-group-addon {
 	background-color: #FFFFFF88;
+}
+
+.btn-default {
+	background-color: #FFFFFF88;
+}
+
+.btn-default:hover {
+	background-color: rgba(135, 207, 235, 0.1);
+}
+
+.input-group-small {
+	margin-top: 10px;
+}
+
+.input-group-small .input-group-addon {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	min-width: 72px;
+}
+
+.input-group-small .form-control {
+	height: 24px;
+}
+
+#book-info-edit {
+	margin-top: 8px;
+	font-size: small;
+}
+
+#book-info-edit tbody>tr>td {
+	line-height: 24px;
+}
+
+#book-info-edit input {
+	height: 24px;
 }

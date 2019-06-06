@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*,java.sql.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,java.sql.*,jlxy.chensy.db.*" pageEncoding="UTF-8"%>
 <jsp:useBean id="users" scope="page" class="jlxy.chensy.db.Users" />
 <%
 	// 若已处于登录状态，则跳转至首页
@@ -8,14 +8,14 @@
 
 	// 提交注册表单时的操作
 	if ("submit".equals(request.getParameter("action"))) {
-		HashMap<String, String> args = new HashMap<String, String>();
-		args.put("username", request.getParameter("txtUsername"));
-		args.put("password", request.getParameter("txtPassword"));
-		args.put("password2", request.getParameter("txtPassword2"));
-		if (users.register(args)) {
+		String username = request.getParameter("txtUsername");
+		String password = request.getParameter("txtPassword");
+		String password2 = request.getParameter("txtPassword2");
+		User user = users.register(username, password, password2);
+		if (user != null) {
 			// 注册成功，登录用户
 			out.print("<script>alert('注册成功！');window.location.href('index.jsp');</script>");
-			session.setAttribute("CurrentUser", args.get("username"));
+			session.setAttribute("CurrentUser", user);
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
 	}

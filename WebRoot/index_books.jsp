@@ -1,30 +1,33 @@
-<%@ page language="java" import="java.util.*,java.sql.*,jlxy.chensy.db.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="jlxy.chensy.common.Book" %>
 <jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
 
 <h3>热门图书</h3>
 <div id="index_books" class="list-group">
 	<%
 		// 生成3个随机不同的数
-		int count = books.count();
-		HashSet<Integer> hashSet = new HashSet<Integer>();
+		int m = books.max();
+		HashSet<Book> hashSet = new HashSet<Book>();
 		Random random = new Random();
-		while (hashSet.size() < 3)
-			hashSet.add(random.nextInt(count) + 1);
+		while (hashSet.size() < 3) {
+			Book book = books.getBook(random.nextInt(m) + 1);
+			if (book != null) {
+				hashSet.add(book);
+			}
+		}
 
 		// 显示3本书的信息
-		Book book = null;
-		for (int i : hashSet) {
-			book = books.getBookById(i);
+		for (Book book : hashSet) {
 	%>
-	<a class="list-group-item" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + i%>'>
+	<a class="list-group-item" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + book.getId()%>'>
 		<div class="media">
 			<div class="media-left">
-				<img class="media-object" src='<%=request.getContextPath() + book.getDisplayPicture()%>' alt="<%=book.getDisplayFullTitle()%>" />
+				<img class="media-object" src='<%=request.getContextPath() + book.getPicturePath()%>' alt="<%=book.showFullTitle()%>" />
 			</div>
 			<div class="media-body">
-				<h4 class="media-heading"><%=book.getDisplayFullTitle()%></small>
+				<h4 class="media-heading"><%=book.showFullTitle()%></small>
 				</h4>
-				<small><%=book.getDisplayDescription()%></small>
+				<small><%=book.showDescription()%></small>
 			</div>
 		</div>
 	</a>

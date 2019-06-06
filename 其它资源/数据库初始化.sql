@@ -10,7 +10,7 @@ CREATE TABLE `user` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR (50) NOT NULL UNIQUE COMMENT '用户名',
 	`password` VARCHAR (255) NOT NULL COMMENT '密码',
-	`role` ENUM ('admin', 'member') NOT NULL DEFAULT 'member' COMMENT '用户角色',
+	`role` INT NOT NULL DEFAULT 1 COMMENT '用户角色',
 	`register_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '注册时间',
 	`login_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '登录时间',
 	PRIMARY KEY (`id`)
@@ -22,9 +22,9 @@ INSERT INTO `user` (
 	`role`
 )
 VALUES
-	('admin', 'admin', 'admin'),
-	('user1', 'user1', 'member'),
-	('user2', 'user2', 'member');
+	('admin', 'admin', 2),
+	('user1', 'user1', 1),
+	('user2', 'user2', 1);
 
 -- 图书表（临时）
 DROP TABLE
