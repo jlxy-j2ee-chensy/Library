@@ -114,6 +114,7 @@ public class Books {
 			book.setCategory(resultSet.getString("category"));
 			book.setKeywords(resultSet.getString("keywords"));
 			book.setDescription(resultSet.getString("description"));
+			book.setCount(resultSet.getInt("count"));
 			return book;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -200,7 +201,7 @@ public class Books {
 		if (book.getId() != 0) {
 			Conn conn = new Conn();
 			PreparedStatement sql = conn.preparedStatement(
-					"UPDATE book SET title=?,subtitle=?,series=?,author=?,CIP=?,ISBN=?,pub_ins=?,pub_loc=?,pub_time=?,num_edit=?,num_print=?,price=?,language=?,size=?,binding=?,category=?,keywords=?,description=? WHERE id=?");
+					"UPDATE book SET title=?,subtitle=?,series=?,author=?,CIP=?,ISBN=?,pub_ins=?,pub_loc=?,pub_time=?,num_edit=?,num_print=?,price=?,language=?,size=?,binding=?,category=?,keywords=?,description=?,count=? WHERE id=?");
 			try {
 				sql.setString(1, book.getTitle());
 				sql.setString(2, book.getSubtitle());
@@ -220,7 +221,8 @@ public class Books {
 				sql.setString(16, book.getCategory());
 				sql.setString(17, book.getKeywords());
 				sql.setString(18, book.getDescription());
-				sql.setInt(19, book.getId());
+				sql.setInt(19, book.getCount());
+				sql.setInt(20, book.getId());
 				sql.executeUpdate();
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
@@ -231,7 +233,7 @@ public class Books {
 		} else {
 			Conn conn = new Conn();
 			PreparedStatement sql = conn.preparedStatement(
-					"INSERT INTO book (title,subtitle,series,author,CIP,ISBN,pub_ins,pub_loc,pub_time,num_edit,num_print,price,language,size,binding,category,keywords,description)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO book (title,subtitle,series,author,CIP,ISBN,pub_ins,pub_loc,pub_time,num_edit,num_print,price,language,size,binding,category,keywords,description,count)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			try {
 				sql.setString(1, book.getTitle());
 				sql.setString(2, book.getSubtitle());
@@ -251,6 +253,7 @@ public class Books {
 				sql.setString(16, book.getCategory());
 				sql.setString(17, book.getKeywords());
 				sql.setString(18, book.getDescription());
+				sql.setInt(19, book.getCount());
 				sql.executeUpdate();
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块

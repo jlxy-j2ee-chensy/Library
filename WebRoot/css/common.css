@@ -1,5 +1,7 @@
 @CHARSET "UTF-8";
 
+;
+
 /* 网页背景色 */
 body {
 	background-color: rgba(135, 207, 235, 0.1);
@@ -23,6 +25,7 @@ body {
 	color: azure;
 	margin-left: 8px;
 }
+
 #top-row a {
 	cursor: pointer;
 }
@@ -137,4 +140,20 @@ abbr {
 
 #book-info-edit input {
 	height: 24px;
+}
+
+.thumbnail img {
+	max-height: 180px;
+}
+
+.thumbnail {
+	border-color: #00000000;
+	background-color: inherit;
+	width: 180px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.thumbnail:hover {
+	border-color: #337ab7;
 }

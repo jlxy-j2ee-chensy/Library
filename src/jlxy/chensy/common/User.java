@@ -1,12 +1,12 @@
 package jlxy.chensy.common;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User {
 	public static final int ROLE_GUEST = 0;
 	public static final int ROLE_MEMBER = 1;
 	public static final int ROLE_ADMIN = 2;
+	public static final String[] ROLE_INFO = { "游客", "普通用户", "管理员" };
 
 	private int id, role;
 	private String username, password;
@@ -21,14 +21,12 @@ public class User {
 		this.login_time = null;
 	}
 
-	public String getFormattedLogin_time() {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return df.format(login_time);
+	public String showLogin_time() {
+		return Util.dateToString(login_time);
 	}
 
-	public String getFormattedRegister_time() {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return df.format(register_time);
+	public String showRegister_time() {
+		return Util.dateToString(register_time);
 	}
 
 	public int getId() {

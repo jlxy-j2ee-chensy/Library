@@ -49,7 +49,7 @@ public class Users {
 			assert (user.getLogin_time() != null);
 			String sql = "UPDATE user SET username='%s', password='%s', role=%d, register_time='%s', login_time='%s' WHERE id=%d;";
 			sql = String.format(sql, user.getUsername(), user.getPassword(), user.getRole(),
-					user.getFormattedRegister_time(), user.getFormattedLogin_time(), user.getId());
+					user.showRegister_time(), user.showLogin_time(), user.getId());
 			Conn conn = new Conn();
 			conn.update(sql);
 			conn.close();
@@ -62,7 +62,7 @@ public class Users {
 			user.setLogin_time(new Date());
 			String sql = "INSERT INTO user(username, password, role, register_time, login_time) VALUES ('%s', '%s', %d, '%s', '%s');";
 			sql = String.format(sql, user.getUsername(), user.getPassword(), user.getRole(),
-					user.getFormattedRegister_time(), user.getFormattedLogin_time());
+					user.showRegister_time(), user.showLogin_time());
 			Conn conn = new Conn();
 			conn.update(sql);
 			conn.close();
@@ -106,22 +106,12 @@ public class Users {
 	 * @param args 用户在表单中填入的内容（键值对）
 	 * @return 注册成功返回用户对象，否则返回null
 	 */
-	public User register(String username, String password, String password2) {
-		if (username == null || "".equals(username)) {
-			extra = "用户名不能为空";
-			return null;
-		}
-		if (password == null || "".equals(password)) {
-			extra = "密码不能为空";
-			return null;
-		}
-		if (!password.equals(password2)) {
-			extra = "两次密码输入不一致";
-			return null;
-		}
+	public User register(String username, String password) {
+		if (Util.isNullOrEmpty(username) || Util.isNullOrEmpty(password))
+			System.err.println("传入的/用户名或密码为空！");
 
 		if (getUser(username) != null) {
-			extra = "用户已存在";
+			extra = "用户已存在！";
 			return null;
 		}
 
@@ -130,6 +120,6 @@ public class Users {
 		user.setPassword(password);
 		this.update(user);
 		extra = "注册成功";
-		return user;
+		return getUser(username);
 	}
 }

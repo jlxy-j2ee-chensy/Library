@@ -18,7 +18,7 @@
 			%>
 			<!-- 未登录时 -->
 			<a type="button" class="btn-link" onclick="login()">登录</a>
-			<a type="button" class="btn-link" href='<%=request.getContextPath() + "/register.jsp"%>'>注册</a>
+			<a type="button" class="btn-link" onclick="register()">注册</a>
 			<%
 				} else {
 			%>
@@ -62,13 +62,26 @@
 <script>
 	function login() {
 		modalHide();
+		$('#modalRegister').modal('hide');
 		$('#modalLogin').modal('show');
+		$('#modalLoginUsername').focus();
+	}
+	function register() {
+		modalHide();
+		$('#modalLogin').modal('hide');
+		$('#modalRegister').modal('show');
+		$('#modalRegisterUsername').focus();
 	}
 	$(document).ready(function() {
 		$('#modalLogin').on('show.bs.modal', function(event) {
 			$('#modalLoginUsername').val('');
 			$('#modalLoginPassword').val('');
 			$('#modalLoginError').text('');
+		})
+		$('#modalRegister').on('show.bs.modal', function(event) {
+			$('#modalRegisterUsername').val('');
+			$('#modalRegisterPassword').val('');
+			$('#modalRegisterError').text('');
 		})
 	});
 	function loginCheck() {
@@ -82,21 +95,42 @@
 			$('#modalLoginPassword').focus();
 			return;
 		}
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				$('#modalLoginError').html(xmlhttp.responseText);
-				if ($('#modalLoginError').text().match(/\s*登录成功\s*/) != null) {
-					$('#modalLogin').modal('hide');
-					modalRefresh('登录成功');
-				}
-			}
+		$('#modalLoginError').load("/Library/login-check.jsp",
+				$('#modalLoginForm').serialize(), function(data) {
+					if (data == '') {
+						$('#modalLogin').modal('hide');
+						modalRefresh('登录成功');
+					}
+				});
+	}
+	function registerCheck() {
+		if ($('#modalRegisterUsername').val() == '') {
+			$('#modalRegisterError').text('用户名不能为空！');
+			$('#modalRegisterUsername').focus();
+			return;
 		}
-		xmlhttp.open("POST", "/Library/login-check.jsp", true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send("username=" + $('#modalLoginUsername').val()
-				+ "&password=" + $('#modalLoginPassword').val());
+		if ($('#modalRegisterPassword').val() == '') {
+			$('#modalRegisterError').text('密码不能为空！');
+			$('#modalRegisterPassword').focus();
+			return;
+		}
+		if ($('#modalRegisterPassword').val() != $('#modalRegisterPassword2')
+				.val()) {
+			$('#modalRegisterError').text('两次密码输入不一致！');
+			$('#modalRegisterPassword').focus();
+			$('#modalRegisterPassword').val('');
+			;
+			$('#modalRegisterPassword2').val('');
+			return;
+		}
+		
+		$('#modalRegisterError').load("/Library/register-check.jsp",
+				$('#modalRegisterForm').serialize(), function(data) {
+					if (data == '') {
+						$('#modalRegister').modal('hide');
+						modalRefresh('注册成功');
+					}
+				});
 	}
 </script>
 <%-- 登录框 --%>
@@ -124,10 +158,48 @@
 				<div class="modal-footer">
 					<span class="pull-left small">
 						没有账户？
-						<a class="btn-link" href="/Library/register.jsp">去注册</a>
+						<a class="btn-link" onclick="register()">去注册</a>
 					</span>
-					<button type="button" class="btn btn-default" name="modalLoginCancel" id="btnCancel" data-dismiss="modal">取消</button>
-					<button type="submit" class="btn btn-primary" name="modalLoginSubmit" id="btnSubmit" onclick="loginCheck()">登录</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary" onclick="loginCheck()">登录</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<%-- 注册框 --%>
+<div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form name="modalRegisterForm" id="modalRegisterForm" method="post" onsubmit="return false">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">用户注册</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="modalRegisterUsername">用户名</label>
+						<input name="username" id="modalRegisterUsername" type="text" class="form-control" placeholder="用户名">
+					</div>
+					<div class="form-group">
+						<label for="modalRegisterPassword">密码</label>
+						<input name="password" id="modalRegisterPassword" type="password" class="form-control" placeholder="密码">
+					</div>
+					<div class="form-group">
+						<label for="modalRegisterPassword2">重复密码</label>
+						<input name="password2" id="modalRegisterPassword2" type="password" class="form-control" placeholder="重复密码">
+					</div>
+					<div class="error" id="modalRegisterError"></div>
+				</div>
+				<div class="modal-footer">
+					<span class="pull-left small">
+						已有账户？
+						<a class="btn-link" onclick="login()">去登录</a>
+					</span>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary" onclick="registerCheck()">注册</button>
 				</div>
 			</form>
 		</div>

@@ -2,33 +2,24 @@
 -- 推荐参考课本，使用Navicat
 USE library;
 
--- 用户表（临时）
+DROP TABLE
+IF EXISTS `borrow`;
+
 DROP TABLE
 IF EXISTS `user`;
+
+DROP TABLE
+IF EXISTS `book`;
 
 CREATE TABLE `user` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR (50) NOT NULL UNIQUE COMMENT '用户名',
 	`password` VARCHAR (255) NOT NULL COMMENT '密码',
-	`role` INT NOT NULL DEFAULT 1 COMMENT '用户角色',
+	`role` INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户角色',
 	`register_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '注册时间',
 	`login_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '登录时间',
 	PRIMARY KEY (`id`)
 );
-
-INSERT INTO `user` (
-	`username`,
-	`password`,
-	`role`
-)
-VALUES
-	('admin', 'admin', 2),
-	('user1', 'user1', 1),
-	('user2', 'user2', 1);
-
--- 图书表（临时）
-DROP TABLE
-IF EXISTS `book`;
 
 CREATE TABLE `book` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -53,6 +44,27 @@ CREATE TABLE `book` (
 	PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `borrow` (
+	`userid` INT UNSIGNED NOT NULL COMMENT '用户ID',
+	`bookid` INT UNSIGNED NOT NULL COMMENT '书籍ID',
+	`time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '时间',
+	`status` INT UNSIGNED NOT NULL DEFAULT 1,
+	PRIMARY KEY (`userid`, `bookid`),
+	FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+	FOREIGN KEY (`bookid`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+);
+
+INSERT INTO `user` (
+	`username`,
+	`password`,
+	`role`
+)
+VALUES
+	('admin', 'admin', 2),
+	('user1', 'user1', 1),
+	('user2', 'user2', 1);
+
+-- 图书表（临时）
 INSERT INTO `book` (
 	`title`,
 	`subtitle`,
@@ -334,3 +346,4 @@ VALUES
 		'凯勒，H.（1880～1968）－自传',
 		'内容简介：《假如给我三天光明》这本书完整收录了《假如给我三天光明》、《我生命的故事》、《三论乐观》、《在芒特艾里的演讲》以及海伦·凯勒书信十封，英汉双语对照，讲述了海伦·凯勒一个没有光明、没有声音的传奇人生。'
 	);
+

@@ -15,6 +15,28 @@
 
 </footer>
 
+<script>
+	$(document).ready(
+			// 按下回车键时，点击显示状态的模态框的确认按钮
+			function() {
+				$('body').keydown(
+						function(event) {
+							if (event.keyCode == 13) {
+								if ($('#modalRefresh').hasClass('in')) {
+									$('#modalRefresh').find(
+											'.modal-footer button.btn-primary')
+											.click()
+								}
+								if ($('#modalAlert').hasClass('in')) {
+									$('#modalAlert').find(
+											'.modal-footer button.btn-primary')
+											.click()
+								}
+							}
+						})
+			})
+</script>
+
 <div class="modal fade" id="modalRefresh" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">

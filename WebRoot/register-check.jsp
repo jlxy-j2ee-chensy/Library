@@ -4,7 +4,7 @@
 <%
 	String username = request.getParameter("username");
 	String password = request.getParameter("password");
-	User user = users.login(username, password);
+	User user = users.register(username, password);
 	out.clear();
 	if (user == null) {
 		out.print(users.getExtra());

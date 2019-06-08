@@ -41,10 +41,10 @@
 		<div style="max-width: 720px; margin: 0 auto">
 			<%
 				String link = request.getContextPath() + "/book_list.jsp";
-				String method = "get";
+				String method = "post";
 
-				String[] tab_class = { "active", "", "", "" };
-				String[] panel_class = { "", "", "" };
+				String[] tab_class = { "", "active", "", "" };
+				String[] panel_class = { "in active", "", "" };
 
 				Book search = new Book();
 

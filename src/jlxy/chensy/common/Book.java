@@ -1,5 +1,9 @@
 package jlxy.chensy.common;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Book {
 
 	private int id;
@@ -8,6 +12,7 @@ public class Book {
 	private float price;
 	private String language, size, binding, category, keywords, description;
 	private String searchText;
+	private int count;
 
 	public Book() {
 		this.id = 0;
@@ -30,6 +35,7 @@ public class Book {
 		this.keywords = null;
 		this.description = null;
 		this.searchText = null;
+		this.count = 0;
 	}
 
 	// Getter方法：直接返回数据
@@ -265,6 +271,10 @@ public class Book {
 		this.title = Util.emptyToNull(title);
 	}
 
+	public void setCount(String count) {
+		setCount(Integer.parseInt(count));
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -406,6 +416,34 @@ public class Book {
 			return "<a href=\"/Library/book_list.jsp?language=" + language + "\">" + language + "</a>";
 		else
 			return "<a href=\"/Library/book_list.jsp?language=中文\">中文</a>";
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public String showCount() {
+		return count + "";
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public ArrayList<String> getSplitedKeywords() {
+		if (Util.isNullOrEmpty(keywords))
+			return null;
+		ArrayList<String> result = new ArrayList<>();
+		for (int i = 5; i >= 0; i--) {
+			Pattern pattern = Pattern.compile("－?[^－]+(－[^－]+){" + i + "}$");
+			for (String s : keywords.split("；")) {
+				Matcher matcher = pattern.matcher(s);
+				if (matcher.find()) {
+					result.add(matcher.group(0));
+				}
+			}
+		}
+		return result;
 	}
 
 }

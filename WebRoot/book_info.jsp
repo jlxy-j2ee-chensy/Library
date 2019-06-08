@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
+<jsp:useBean id="borrows" scope="page" class="jlxy.chensy.db.Borrows" />
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -23,9 +24,6 @@
 <body onload="time();">
 
 	<%@ include file="header.jsp"%>
-
-
-
 
 	<div class="container section">
 		<%
@@ -63,6 +61,7 @@
 				book.setCategory(Util.getParameter(request, "category"));
 				book.setKeywords(Util.getParameter(request, "keywords"));
 				book.setDescription(Util.getParameter(request, "description"));
+				book.setCount(Util.getParameter(request, "count"));
 				id = books.update(book).getId();
 			}
 
@@ -93,6 +92,16 @@
 				</h2>
 				<div><%=book.showSeries()%></div>
 				<div><%=book.showLinkedAuthor()%></div>
+				<table class="small" style="margin-top: 4px;">
+					<tr>
+						<td>馆藏总数</td>
+						<td style="padding-left: 24px;"><%=book.getCount()%></td>
+					</tr>
+					<tr>
+						<td>已借出</td>
+						<td style="padding-left: 24px;"><%=borrows.getByBook(id).size()%></td>
+					</tr>
+				</table>
 				<table class="table table-condensed" style="margin-top: 8px; font-size: small;">
 					<tr>
 						<td style="width: 20%">
@@ -146,160 +155,307 @@
 					</tr>
 				</table>
 			</div>
-			<%-- 操作 --%>
-			<div class="col-md-2">
-				<%-- 管理员操作 --%>
-				<%
-					if (user != null && user.getRole() >= User.ROLE_ADMIN) {
-				%>
-				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
-					<a type="button" class="btn btn-default" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=edit"%>'>编辑本书信息</a>
-					<a type="button" class="btn btn-default" href="#">查看本书借阅记录</a>
-					<a type="button" class="btn btn-danger" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=delete"%>'>从数据库删除本书</a>
-				</div>
-				<%
-					}
-				%>
 
-				<%-- 用户操作 --%>
-				<%
-					if (user != null && user.getRole() >= User.ROLE_MEMBER) {
-				%>
-				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
-					<button type="button" class="btn btn-default">预约借阅本书</button>
-					<button type="button" class="btn btn-default">查看账号借阅情况</button>
-				</div>
-				<%
-					}
-				%>
-			</div>
+
 		</div>
-		<%
-			} else if ("edit".equals(action) || ("new".equals(action))) {
-		%>
-		<%-- 编辑 --%>
-		<form action='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=submit"%>' method="post" class="form-horizontal">
-			<div class="row">
-				<div class="col-md-3"></div>
-				<div class="col-md-7">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="input-group">
-								<span class="input-group-addon">标题</span>
-								<input type="text" class="form-control" id="inputTitle" name="title" placeholder="标题" value='<%=book.showTitle()%>' />
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="input-group input-group-small">
-								<span class="input-group-addon">副标题</span>
-								<input type="text" class="form-control" id="inputSubtitle" name="subtitle" placeholder="副标题" value='<%=book.showSubtitle()%>' />
-							</div>
-						</div>
-					</div>
-					<div class="input-group input-group-small">
-						<span class="input-group-addon">丛书名</span>
-						<input type="text" class="form-control" id="inputSeries" name="series" placeholder="丛书名" value='<%=book.showSeries()%>' />
-					</div>
-					<div class="input-group input-group-small">
-						<span class="input-group-addon">作者</span>
-						<input type="text" class="form-control" id="inputAuthor" name="author" placeholder="作者" value='<%=book.showAuthor()%>' />
-					</div>
-					<table class="table table-condensed" id="book-info-edit">
-						<tr>
-							<td style="width: 20%">
-								<abbr title="图书在版编目（Cataloguing in Publication）">CIP</abbr>
-							</td>
-							<td style="width: 30%">
-								<input type="text" class="form-control" id="inputCIP" name="CIP" value='<%=book.showCIP()%>' />
-							</td>
-							<td style="width: 20%">
-								<abbr title="国际标准书号（International Standard Book Number）">ISBN</abbr>
-							</td>
-							<td style="width: 30%">
-								<input type="text" class="form-control" id="inputISBN" name="ISBN" value='<%=book.showISBN()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>出版单位</td>
-							<td colspan="3">
-								<input type="text" class="form-control" id="inputPub_ins" name="pub_ins" value='<%=book.showPub_ins()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>出版地</td>
-							<td>
-								<input type="text" class="form-control" id="inputPub_loc" name="pub_loc" value='<%=book.showPub_loc()%>' />
-							</td>
-							<td>出版时间</td>
-							<td>
-								<input type="text" class="form-control" id="inputPub_time" name="pub_time" value='<%=book.showPub_time()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>版次</td>
-							<td>
-								<input type="text" class="form-control" id="inputNum_edit" name="num_edit" value='<%=book.showNum_edit()%>' />
-							</td>
-							<td>印次</td>
-							<td>
-								<input type="text" class="form-control" id="inputNum_print" name="num_print" value='<%=book.showNum_print()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>定价（元）</td>
-							<td>
-								<input type="text" class="form-control" id="inputPrice" name="price" value='<%=book.showPrice()%>' />
-							</td>
-							<td>正文语种</td>
-							<td>
-								<input type="text" class="form-control" id="inputLanguage" name="language" placeholder="中文" value='<%=book.showLanguage()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>开本或尺寸</td>
-							<td>
-								<input type="text" class="form-control" id="inputSize" name="size" value='<%=book.showSize()%>' />
-							</td>
-							<td>装帧方式</td>
-							<td>
-								<input type="text" class="form-control" id="inputBinding" name="num_binding" value='<%=book.showBinding()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>中图法分类</td>
-							<td colspan="3">
-								<input type="text" class="form-control" id="inputCategory" name="category" value='<%=book.showCategory()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>主题词</td>
-							<td colspan="3">
-								<input type="text" class="form-control" id="inputKeywords" name=keywords value='<%=book.showKeywords()%>' />
-							</td>
-						</tr>
-						<tr>
-							<td>内容提要</td>
-							<td colspan="3">
-								<textarea class="form-control" rows="5" id="inputDescription" name="description"><%=book.showDescription()%></textarea>
-							</td>
-						</tr>
-					</table>
 
-
-				</div>
-				<div class="col-md-2">
-					<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
-						<button type="submit" class="btn btn-info">提交</button>
-						<button type="button" class="btn btn-default">取消</button>
-					</div>
-				</div>
+		<%-- 操作 --%>
+		<div class="col-md-2">
+			<%-- 管理员操作 --%>
+			<%
+				if (user != null && user.getRole() >= User.ROLE_ADMIN) {
+			%>
+			<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+				<a type="button" class="btn btn-default" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=edit"%>'>编辑本书信息</a>
+				<a type="button" class="btn btn-default" href="#">查看本书借阅记录</a>
+				<a type="button" class="btn btn-default" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=delete"%>'>从数据库删除本书</a>
 			</div>
-		</form>
-		<%
-			}
-		%>
+			<%
+				}
+			%>
+
+			<%-- 用户操作 --%>
+			<%
+				if (user != null && user.getRole() >= User.ROLE_MEMBER) {
+			%>
+			<script>
+				function book() {
+					$.post('/Library/borrow-check.jsp', {
+						bookid : location.search.match(/(&|\?)bookid=(\d+)/)[2]
+					}, function(data) {
+						if (data.match(/^\s*$/)) {
+							modalRefresh('预约成功');
+						} else {
+							modalAlert('预约失败', data);
+						}
+					})
+				}
+				function unbook() {
+					$.post('/Library/unborrow-check.jsp', {
+						bookid : location.search.match(/(&|\?)bookid=(\d+)/)[2]
+					}, function(data) {
+						if (data.match(/^\s*$/)) {
+							modalRefresh('取消预约成功');
+						} else {
+							modalAlert('取消预约失败', data);
+						}
+					})
+				}
+			</script>
+			<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+				<%
+					Borrow borrow = borrows.get(user.getId(), id);
+							if (borrow == null) {
+				%>
+				<button type="button" class="btn btn-default" onclick="book()">预约借阅本书</button>
+				<%
+					} else {
+				%>
+				<button type="button" class="btn btn-default disabled">
+					您已<%=borrow.showStatus()%>本书
+				</button>
+				<button type="button" class="btn btn-default" onclick="unbook()">取消预约本书</button>
+				<%
+					}
+				%>
+				<button type="button" class="btn btn-default">查看账号借阅情况</button>
+			</div>
+			<%
+				}
+			%>
+		</div>
+
+		<%-- 相关图书 --%>
+		<div class="page-header">
+			<h4>相关图书</h4>
+		</div>
+		<div class="row">
+			<%
+				ArrayList<Book> related = new ArrayList<Book>();
+					related.add(book);
+					for (String word : book.getSplitedKeywords()) {
+						Book s = new Book();
+						s.setKeywords(word);
+						for (Book b : books.search(s)) {
+							if (!related.contains(b)) {
+								related.add(b);
+							}
+						}
+					}
+					while (related.size() < 5) {
+						Book b = books.getBook((new Random()).nextInt(books.max()) + 1);
+						if (!related.contains(b)) {
+							related.add(b);
+						}
+					}
+					for (int i = 1; i <= 4; i++) {
+						Book b = related.get(i);
+			%>
+			<div class="col-md-3">
+				<a href='/Library/book_info.jsp?bookid=<%=b.getId()%>' class="thumbnail" style="">
+					<img src="/Library<%=b.getPicturePath()%>" alt="...">
+					<div class="caption" style="text-align: center;">
+						<%=b.showFullTitle()%>
+					</div>
+				</a>
+			</div>
+			<%
+				}
+			%>
+		</div>
 
 	</div>
+	<%
+		} else if ("edit".equals(action) || ("new".equals(action))) {
+	%>
+	<%-- 编辑 --%>
+	<form action='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=submit"%>' method="post" class="form-horizontal">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-7">
+				<table class="table table-condensed" id="book-info-edit">
+					<tr>
+						<td>标题</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputTitle" name="title" value='<%=book.showTitle()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>副标题</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputSubtitle" name="subtitle" value='<%=book.showSubtitle()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>丛书名</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputSeries" name="series" value='<%=book.showSeries()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>作者</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputAuthor" name="author" value='<%=book.showAuthor()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>馆藏数量</td>
+						<td>
+							<input type="text" class="form-control" id="inputCount" name="count" value='<%=book.showCount()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 20%">
+							<abbr title="图书在版编目（Cataloguing in Publication）">CIP</abbr>
+						</td>
+						<td style="width: 30%">
+							<input type="text" class="form-control" id="inputCIP" name="CIP" value='<%=book.showCIP()%>' />
+						</td>
+						<td style="width: 20%">
+							<abbr title="国际标准书号（International Standard Book Number）">ISBN</abbr>
+						</td>
+						<td style="width: 30%">
+							<input type="text" class="form-control" id="inputISBN" name="ISBN" value='<%=book.showISBN()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>出版单位</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputPub_ins" name="pub_ins" value='<%=book.showPub_ins()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>出版地</td>
+						<td>
+							<input type="text" class="form-control" id="inputPub_loc" name="pub_loc" value='<%=book.showPub_loc()%>' />
+						</td>
+						<td>出版时间</td>
+						<td>
+							<input type="text" class="form-control" id="inputPub_time" name="pub_time" value='<%=book.showPub_time()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>版次</td>
+						<td>
+							<input type="text" class="form-control" id="inputNum_edit" name="num_edit" value='<%=book.showNum_edit()%>' />
+						</td>
+						<td>印次</td>
+						<td>
+							<input type="text" class="form-control" id="inputNum_print" name="num_print" value='<%=book.showNum_print()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>定价（元）</td>
+						<td>
+							<input type="text" class="form-control" id="inputPrice" name="price" value='<%=book.showPrice()%>' />
+						</td>
+						<td>正文语种</td>
+						<td>
+							<input type="text" class="form-control" id="inputLanguage" name="language" placeholder="中文" value='<%=book.showLanguage()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>开本或尺寸</td>
+						<td>
+							<input type="text" class="form-control" id="inputSize" name="size" value='<%=book.showSize()%>' />
+						</td>
+						<td>装帧方式</td>
+						<td>
+							<input type="text" class="form-control" id="inputBinding" name="num_binding" value='<%=book.showBinding()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>中图法分类</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputCategory" name="category" value='<%=book.showCategory()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>主题词</td>
+						<td colspan="3">
+							<input type="text" class="form-control" id="inputKeywords" name=keywords value='<%=book.showKeywords()%>' />
+						</td>
+					</tr>
+					<tr>
+						<td>内容提要</td>
+						<td colspan="3">
+							<textarea class="form-control" rows="5" id="inputDescription" name="description"><%=book.showDescription()%></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<script>
+				function importHTML() {
+					$('#modalImport').modal('show');
+					$('#modalImportTextarea').val('');
+					$('#modalImportTextarea').focus();
+				}
+				function getData(i) {
+					var a = $('#modalImportTextarea').val().match(
+							/<td class="bizformdatacell"[^<^>]*>([^<^>]*)</g)[i]
+							.replace(/\s+ /, " ").match(/.*>(.*)<.*/);
+					if (a != null && a.length > 1)
+						return a[1]
+					else
+						return '';
+				}
+				function importSubmit() {
+					$('#modalImport').modal('hide');
+					var s = $('#modalImportTextarea').val().match(
+							/<td class="bizformdatacell"[^<^>]*>([^<^>]*)</g);
+					$('#inputCIP').val(getData(0));
+					$('#inputISBN').val(getData(1));
+					$('#inputTitle').val(getData(2));
+					$('#inputSeries').val(getData(3));
+					$('#inputPub_ins').val(getData(4));
+					$('#inputPub_loc').val(getData(5));
+					$('#inputPub_time').val(getData(6));
+					$('#inputAuthor').val(getData(7));
+					$('#inputNum_edit').val(getData(8));
+					$('#inputNum_print').val(getData(9));
+					$('#inputPrice').val(getData(10));
+					$('#inputLanguage').val(getData(11));
+					$('#inputSize').val(getData(12));
+					$('#inputBinding').val(getData(13));
+					$('#inputCategory').val(getData(16));
+					$('#inputKeywords').val(getData(17));
+					$('#inputDescription').val(getData(18));
+				}
+			</script>
+			<div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title">导入HTML</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<textarea style="margin: 0 auto; width: 90%" name="textarea" id="modalImportTextarea" type="text" class="form-control" placeholder="&lt;table&gt;标签" rows="8"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-primary" onclick="importSubmit()">确定</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+					<button type="button" class="btn btn-default" onclick="importHTML()">HTML代码导入</button>
+					<button type="submit" class="btn btn-default">提交</button>
+					<button type="button" class="btn btn-default" onclick="window.history.back();">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<%
+		}
+	%>
+
 
 	<%@ include file="footer.jsp"%>
 
