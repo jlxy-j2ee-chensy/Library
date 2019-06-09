@@ -38,7 +38,7 @@
 			}
 			if ("delete".equals(action)) {
 				books.delete(id);
-				response.sendRedirect(request.getContextPath() + "/book_list.jsp");
+				response.sendRedirect("/Library/book_list.jsp");
 			}
 			if ("submit".equals(action)) {
 				Book book = new Book();
@@ -84,7 +84,7 @@
 		<div class="row">
 			<%-- 图片 --%>
 			<div class="col-md-3">
-				<img alt="<%=book.showTitle()%>" src="<%=request.getContextPath() + book.getPicturePath()%>" style="max-width: 100%; float: right;">
+				<img alt="<%=book.showTitle()%>" src="/Library<%=book.getPicturePath()%>" style="max-width: 100%; float: right;">
 			</div>
 			<%-- 信息 --%>
 			<div class="col-md-7">
@@ -155,76 +155,74 @@
 					</tr>
 				</table>
 			</div>
-
-
-		</div>
-
-		<%-- 操作 --%>
-		<div class="col-md-2">
-			<%-- 管理员操作 --%>
-			<%
-				if (user != null && user.getRole() >= User.ROLE_ADMIN) {
-			%>
-			<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
-				<a type="button" class="btn btn-default" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=edit"%>'>编辑本书信息</a>
-				<a type="button" class="btn btn-default" href="#">查看本书借阅记录</a>
-				<a type="button" class="btn btn-default" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=delete"%>'>从数据库删除本书</a>
-			</div>
-			<%
-				}
-			%>
-
-			<%-- 用户操作 --%>
-			<%
-				if (user != null && user.getRole() >= User.ROLE_MEMBER) {
-			%>
-			<script>
-				function book() {
-					$.post('/Library/borrow-check.jsp', {
-						bookid : location.search.match(/(&|\?)bookid=(\d+)/)[2]
-					}, function(data) {
-						if (data.match(/^\s*$/)) {
-							modalRefresh('预约成功');
-						} else {
-							modalAlert('预约失败', data);
-						}
-					})
-				}
-				function unbook() {
-					$.post('/Library/unborrow-check.jsp', {
-						bookid : location.search.match(/(&|\?)bookid=(\d+)/)[2]
-					}, function(data) {
-						if (data.match(/^\s*$/)) {
-							modalRefresh('取消预约成功');
-						} else {
-							modalAlert('取消预约失败', data);
-						}
-					})
-				}
-			</script>
-			<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+			<%-- 操作 --%>
+			<div class="col-md-2">
+				<%-- 管理员操作 --%>
 				<%
-					Borrow borrow = borrows.get(user.getId(), id);
-							if (borrow == null) {
+					if (user != null && user.getRole() >= User.ROLE_ADMIN) {
 				%>
-				<button type="button" class="btn btn-default" onclick="book()">预约借阅本书</button>
-				<%
-					} else {
-				%>
-				<button type="button" class="btn btn-default disabled">
-					您已<%=borrow.showStatus()%>本书
-				</button>
-				<button type="button" class="btn btn-default" onclick="unbook()">取消预约本书</button>
+				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+					<a type="button" class="btn btn-default" href="/Library/book_info.jsp?bookid=<%=id%>&action=edit">编辑本书信息</a>
+					<a type="button" class="btn btn-default" href="#">查看本书借阅记录</a>
+					<a type="button" class="btn btn-default" href="/Library/book_info.jsp?bookid=<%=id%>&action=delete">从数据库删除本书</a>
+				</div>
 				<%
 					}
 				%>
-				<button type="button" class="btn btn-default">查看账号借阅情况</button>
-			</div>
-			<%
-				}
-			%>
-		</div>
 
+				<%-- 用户操作 --%>
+				<%
+					if (user != null && user.getRole() >= User.ROLE_MEMBER) {
+				%>
+				<script>
+					function book() {
+						$.post('/Library/borrow-check.jsp', {
+							bookid : location.search
+									.match(/(&|\?)bookid=(\d+)/)[2]
+						}, function(data) {
+							if (data.match(/^\s*$/)) {
+								modalRefresh('预约成功');
+							} else {
+								modalAlert('预约失败', data);
+							}
+						})
+					}
+					function unbook() {
+						$.post('/Library/unborrow-check.jsp', {
+							bookid : location.search
+									.match(/(&|\?)bookid=(\d+)/)[2]
+						}, function(data) {
+							if (data.match(/^\s*$/)) {
+								modalRefresh('取消预约成功');
+							} else {
+								modalAlert('取消预约失败', data);
+							}
+						})
+					}
+				</script>
+				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+					<%
+						Borrow borrow = borrows.get(user.getId(), id);
+								if (borrow == null) {
+					%>
+					<button type="button" class="btn btn-default" onclick="book()">预约借阅本书</button>
+					<%
+						} else {
+					%>
+					<button type="button" class="btn btn-default disabled">
+						您已<%=borrow.showStatus()%>本书
+					</button>
+					<button type="button" class="btn btn-default" onclick="unbook()">取消预约本书</button>
+					<%
+						}
+					%>
+					<button type="button" class="btn btn-default">查看账号借阅情况</button>
+				</div>
+				<%
+					}
+				%>
+			</div>
+		</div>
 		<%-- 相关图书 --%>
 		<div class="page-header">
 			<h4>相关图书</h4>
@@ -269,7 +267,7 @@
 		} else if ("edit".equals(action) || ("new".equals(action))) {
 	%>
 	<%-- 编辑 --%>
-	<form action='<%=request.getContextPath() + "/book_info.jsp?bookid=" + id + "&action=submit"%>' method="post" class="form-horizontal">
+	<form action="/Library/book_info.jsp?bookid=<%=id%>&action=submit" method="post" class="form-horizontal">
 		<div class="row">
 			<div class="col-md-3"></div>
 			<div class="col-md-7">

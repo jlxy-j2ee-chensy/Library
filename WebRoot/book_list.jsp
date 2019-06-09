@@ -40,7 +40,7 @@
 		<%-- 搜索 --%>
 		<div style="max-width: 720px; margin: 0 auto">
 			<%
-				String link = request.getContextPath() + "/book_list.jsp";
+				String link = "/Library/book_list.jsp";
 				String method = "post";
 
 				String[] tab_class = { "", "active", "", "" };
@@ -185,7 +185,7 @@
 						&& ((User) session.getAttribute("CurrentUser")).getRole() >= User.ROLE_ADMIN) {
 			%>
 			<div class="btn-group pull-right" role="group" aria-label="...">
-				<a type="button" class="btn btn-default" href='<%=request.getContextPath() + "/book_info.jsp?action=new"%>'>新增图书</a>
+				<a type="button" class="btn btn-default" href="/Library/book_info.jsp?action=new">新增图书</a>
 			</div>
 			<%
 				}
@@ -201,7 +201,7 @@
 			%>
 			<tr>
 				<td>
-					<a href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + book.getId()%>'>
+					<a href="/Library/book_info.jsp?bookid=<%=book.getId()%>">
 						<%=book.showFullTitle()%>
 					</a>
 				</td>

@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<jsp:useBean id="news" class="jlxy.chensy.db.News" scope="page" />
+
 <%
 	if ("logout".equals(request.getParameter("action"))) {
 		// 退出登录
@@ -33,7 +35,7 @@
 		<div class="row">
 			<!-- 搜索框组 -->
 			<div class="col-md-12">
-				<form action='<%=request.getContextPath() + "/book_list.jsp"%>' method="post">
+				<form action="/Library/book_list.jsp" method="post">
 					<div class="input-group" id="search-group">
 						<input class="form-control" type="text" placeholder="请输入关键字" name="text" />
 						<span class="input-group-btn">
@@ -49,15 +51,12 @@
 				<h3>新闻公告</h3>
 				<div id="index_news" class="list-group">
 					<%
-						String title;
-						String date;
-						for (int i = 1; i <= 6; i++) {
-							title = "新闻" + i + "：xxxxxxxxxxxx";
-							date = "4月" + i + "日";
+						ArrayList<NewsPiece> list = news.getLatest(6);
+						for (NewsPiece newsPiece : list) {
 					%>
-					<a class="list-group-item" href="#">
-						<%=title%>
-						<div class="pull-right small"><%=date%></div>
+					<a class="list-group-item" href="/Library/news_info.jsp?newsid=<%=newsPiece.getId()%>">
+						<%=newsPiece.getTitle()%>
+						<div class="pull-right small"><%=newsPiece.showDate()%></div>
 					</a>
 					<%
 						}
@@ -74,3 +73,4 @@
 	<%@ include file="footer.jsp"%>
 </body>
 </html>
+

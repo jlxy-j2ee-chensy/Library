@@ -11,6 +11,9 @@ IF EXISTS `user`;
 DROP TABLE
 IF EXISTS `book`;
 
+DROP TABLE
+IF EXISTS `news`;
+
 CREATE TABLE `user` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR (50) NOT NULL UNIQUE COMMENT '用户名',
@@ -41,6 +44,7 @@ CREATE TABLE `book` (
 	`category` VARCHAR (20) COMMENT '中图法分类',
 	`keywords` VARCHAR (50) COMMENT '主题词/关键词',
 	`description` TEXT COMMENT '简介',
+	`count` INT UNSIGNED NOT NULL DEFAULT 2 COMMENT '馆藏数量',
 	PRIMARY KEY (`id`)
 );
 
@@ -52,6 +56,14 @@ CREATE TABLE `borrow` (
 	PRIMARY KEY (`userid`, `bookid`),
 	FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
 	FOREIGN KEY (`bookid`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+);
+
+CREATE TABLE `news` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR (100) NOT NULL COMMENT '标题',
+	`time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '时间',
+	`content` TEXT COMMENT '内容',
+	PRIMARY KEY (`id`)
 );
 
 INSERT INTO `user` (
@@ -345,5 +357,23 @@ VALUES
 		'K837.127=533',
 		'凯勒，H.（1880～1968）－自传',
 		'内容简介：《假如给我三天光明》这本书完整收录了《假如给我三天光明》、《我生命的故事》、《三论乐观》、《在芒特艾里的演讲》以及海伦·凯勒书信十封，英汉双语对照，讲述了海伦·凯勒一个没有光明、没有声音的传奇人生。'
+	);
+
+INSERT INTO `news` (`title`, `time`, `content`)
+VALUES
+	(
+		'图书馆五一放假通知',
+		'2018-04-28 08:00:00',
+		'根据关于“五一”国际劳动节放假的通知精神，2018年5月1日（星期二）为法定节假日，图书馆闭馆一天。5月2日图书馆恢复正常开放。'
+	),
+	(
+		'暂停馆际互借服务通知',
+		'2018-07-02 08:00:00',
+		'为了确保馆际互借图书能按时归还，经过讨论和商议，馆际互借·文献传递服务在7月2日---8月31日暂停服务，9月1日开始恢复，请需要使用该服务的读者于9月1日后再提交申请。谢谢！'
+	),
+	(
+		'关于图书馆业务系统暂停服务的通知',
+		'2019-04-10 08:00:00',
+		'因图书馆业务管理系统升级，图书馆定于2019年4月12日（周五）20：00-4月14日（周日）22：00 对业务系统升级维护，届时图书馆图书借还、书目检索等服务将暂停，由此带来的不便，敬请读者谅解。'
 	);
 

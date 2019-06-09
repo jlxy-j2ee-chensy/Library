@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page import="jlxy.chensy.common.Book" %>
+<%@ page import="jlxy.chensy.common.Book"%>
 <jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
 
-<h3>热门图书</h3>
+<h3>馆藏图书</h3>
 <div id="index_books" class="list-group">
 	<%
 		// 生成3个随机不同的数
@@ -19,10 +19,10 @@
 		// 显示3本书的信息
 		for (Book book : hashSet) {
 	%>
-	<a class="list-group-item" href='<%=request.getContextPath() + "/book_info.jsp?bookid=" + book.getId()%>'>
+	<a class="list-group-item" href="/Library/book_info.jsp?bookid=<%=book.getId()%>">
 		<div class="media">
 			<div class="media-left">
-				<img class="media-object" src='<%=request.getContextPath() + book.getPicturePath()%>' alt="<%=book.showFullTitle()%>" />
+				<img class="media-object" src="/Library<%=book.getPicturePath()%>" alt="<%=book.showFullTitle()%>" />
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading"><%=book.showFullTitle()%></small>
