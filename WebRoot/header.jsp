@@ -16,27 +16,39 @@
 			<%
 				if (user == null) {
 			%>
-			<!-- 未登录时 -->
+			<%-- 未登录时 --%>
 			<a type="button" class="btn-link" onclick="login()">登录</a>
 			<a type="button" class="btn-link" onclick="register()">注册</a>
 			<%
 				} else {
 			%>
-			<!-- 已登录时 -->
+			<%-- 已登录时 --%>
 			<span><%="欢迎，" + ((User) session.getAttribute("CurrentUser")).getUsername() + "！"%></span>
-			<a type="button" class="btn-link" href="#">用户中心</a>
-			<a type="button" class="btn-link" onclick="logout()">退出登录</a>
+			<div class="dropdown">
+				<a id="btnUser" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+					用户中心
+					<span class="caret"></span>
+				</a>
+				<ul id="menuUser" class="dropdown-menu" aria-labelledby="btnUser">
+					<li><a href="#">查看借阅</a></li>
+					<li><a href="#">修改密码</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a onclick="logout()">退出登录</a></li>
+				</ul>
+			</div>
 			<%
 				}
 			%>
 		</div>
 	</div>
 </div>
-<!-- 标题图片 -->
+
+<%-- 标题图片 --%>
 <div id="title-row">
 	<div id="title-container" class="container"></div>
 </div>
-<!-- 导航条 -->
+
+<%-- 导航条 --%>
 <div id="nav-row">
 	<div class="container">
 		<ul class="nav nav-pills nav-justified hidden-xs">
@@ -99,7 +111,7 @@
 				$('#modalLoginForm').serialize(), function(data) {
 					if (data == '') {
 						$('#modalLogin').modal('hide');
-						modalRefresh('登录成功');
+						modal("登录成功", "<p>登录成功，点击“确定”刷新页面。</p>", "refresh");
 					}
 				});
 	}
@@ -123,12 +135,15 @@
 			$('#modalRegisterPassword2').val('');
 			return;
 		}
-		
-		$('#modalRegisterError').load("/Library/register-check.jsp",
-				$('#modalRegisterForm').serialize(), function(data) {
+
+		$('#modalRegisterError').load(
+				"/Library/register-check.jsp",
+				$('#modalRegisterForm').serialize(),
+				function(data) {
 					if (data == '') {
 						$('#modalRegister').modal('hide');
-						modalRefresh('注册成功');
+						modal("注册成功", "<p>注册成功，用户已登录。点击“确定”刷新页面。</p>",
+								"refresh");
 					}
 				});
 	}
@@ -210,10 +225,16 @@
 %>
 <script>
 	function logout() {
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", "/Library/logout.jsp", true);
-		xmlhttp.send();
-		modalRefresh("登出成功");
+		modal("确认登出", "<p>您确定要退出登录吗？</p>", function() {
+			console.log("退出登录");
+			$.get("/Library/user/logout.jsp", function(data) {
+				if (data == "登出成功") {
+					modal("登出成功", "<p>您的用户已经退出。点击“确定”刷新页面。</p>", "refresh");
+				} else {
+					modal("登出失败", "<p>" + data + "</p>", null, "close");
+				}
+			});
+		}, "close");
 	}
 </script>
 <%

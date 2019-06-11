@@ -3,7 +3,7 @@
 <jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
 
 <h3>馆藏图书</h3>
-<div id="index_books" class="list-group">
+<div id="index-books" class="list-group">
 	<%
 		// 生成3个随机不同的数
 		int m = books.max();

@@ -1,159 +1,206 @@
 @CHARSET "UTF-8";
 
-;
-
 /* 网页背景色 */
+
 body {
-	background-color: rgba(135, 207, 235, 0.1);
+    background-color: rgba(135, 207, 235, 0.1);
 }
 
+
 /* 顶部和导航栏横条 */
-#top-row, #nav-row {
-	height: 24px;
-	line-height: 24px;
-	color: azure;
-	background-color: deepskyblue;
+
+#top-row,
+#nav-row {
+    background-color: deepskyblue;
+    color: azure;
+    height: 24px;
+    line-height: 24px;
 }
 
 #top-row #time {
-	font-size: small;
+    font-size: small;
 }
+
 
 /* 顶部横条按钮 */
-#top-row a, #top-row span {
-	line-height: 18px;
-	color: azure;
-	margin-left: 8px;
-}
 
 #top-row a {
-	cursor: pointer;
+    color: azure;
+    cursor: pointer;
+    line-height: 18px;
+    margin-left: 8px;
 }
 
-/* 标题下层图片 */
+#top-row .dropdown {
+    display: inline-block;
+}
+
+#top-row .dropdown .dropdown-menu a {
+    color: #000;
+}
+
+
+/* 标题图片 */
+
 #title-row {
-	height: 96px;
-	background-image: url("/Library/image/title-bg.jpg");
-	background-size: cover;
+    background-image: url("/Library/image/title-bg.jpg");
+    background-size: cover;
+    height: 96px;
 }
 
-/* 标题上层图片 */
 #title-container {
-	height: 100%;
-	background-image: url("/Library/image/title.jpg");
-	background-repeat: no-repeat;
+    background-image: url("/Library/image/title.jpg");
+    background-repeat: no-repeat;
+    height: 100%;
 }
+
 
 /* 导航栏按钮 */
+
 #nav-row a {
-	padding: 0;
-	line-height: 24px;
-	color: azure;
-	margin-left: 15px;
-	margin-right: 15px;
-}
-
-/* 页面底部 */
-footer {
-	color: lightgray;
-}
-
-footer a {
-	color: lightgray;
-	text-decoration: underline;
-}
-
-.section {
-	background-color: rgba(135, 207, 235, 0.1);
-	padding: 48px 72px;
-	margin: 48px auto;
-	min-height: 300px;
-}
-
-.table-striped>tbody>tr:nth-of-type(odd) {
-	background-color: rgba(255, 255, 255, 0.05);
-}
-
-.table-hover>tbody>tr:hover {
-	background-color: rgba(255, 255, 255, 0.5);
+    padding: 0;
+    line-height: 24px;
+    color: azure;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 #nav-row a:hover {
-	background-color: lightskyblue;
+    background-color: lightskyblue;
 }
 
-/* 列表项 */
-.list-group-item {
-	background-color: initial;
-	border: 0;
+
+/* 页面主体 */
+
+.section {
+    background-color: rgba(135, 207, 235, 0.1);
+    margin: 48px auto;
+    min-height: 300px;
+    padding: 48px 72px;
 }
 
-a.list-group-item:hover {
-	background-color: rgba(135, 207, 235, 0.1);
+
+/* 页面底部 */
+
+footer {
+    color: lightgray;
 }
 
-/* 错误信息 */
-.error {
-	color: #ff8080;
-	margin-top: 10px;
-	margin-bottom: 10px;
+footer a {
+    color: lightgray;
+    text-decoration: underline;
 }
+
+footer a:hover {
+    color: lightskyblue;
+}
+
+
+/* 页面内容 */
 
 abbr {
-	text-decoration: none;
-}
-
-.input-group-addon {
-	background-color: #FFFFFF88;
+    text-decoration: none;
 }
 
 .btn-default {
-	background-color: #FFFFFF88;
+    background-color: #FFFFFF88;
 }
 
 .btn-default:hover {
-	background-color: rgba(135, 207, 235, 0.1);
+    background-color: rgba(135, 207, 235, 0.1);
+}
+
+.error {
+    color: #ff8080;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.input-group-addon {
+    background-color: #FFFFFF88;
 }
 
 .input-group-small {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .input-group-small .input-group-addon {
-	padding-top: 0px;
-	padding-bottom: 0px;
-	min-width: 72px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    min-width: 72px;
 }
 
 .input-group-small .form-control {
-	height: 24px;
+    height: 24px;
 }
 
-#book-info-edit {
-	margin-top: 8px;
-	font-size: small;
+.list-group-item {
+    background-color: initial;
+    border: 0;
 }
 
-#book-info-edit tbody>tr>td {
-	line-height: 24px;
+.list-group-item:hover {
+    background-color: rgba(135, 207, 235, 0.1);
 }
 
-#book-info-edit input {
-	height: 24px;
-}
-
-.thumbnail img {
-	max-height: 180px;
+.table-hover>tbody>tr:hover {
+    background-color: rgba(135, 207, 235, 0.1);
 }
 
 .thumbnail {
-	border-color: #00000000;
-	background-color: inherit;
-	width: 180px;
-	margin-left: auto;
-	margin-right: auto;
+    background-color: inherit;
+    border-color: #00000000;
+    margin-left: auto;
+    margin-right: auto;
+    width: 180px;
 }
 
 .thumbnail:hover {
-	border-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.thumbnail img {
+    max-height: 180px;
+}
+
+
+/* 图书编辑 */
+
+#book-info-edit {
+    margin-top: 8px;
+    font-size: small;
+}
+
+#book-info-edit input {
+    height: 24px;
+}
+
+#book-info-edit tbody>tr>td {
+    line-height: 24px;
+}
+
+#index-search {
+    max-width: 480px;
+    margin: 48px auto;
+}
+
+#index-news .list-group-item {
+    height: 48px;
+}
+
+#index-books .list-group-item {
+    height: 96px;
+}
+
+#index-books .media-body small {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+#index-books .media-object {
+    height: 80px;
+    width: 60px;
 }

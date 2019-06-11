@@ -94,7 +94,7 @@
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane fade <%=panel_class[0]%>" id="search_text">
 					<form action="<%=link%>" method="<%=method%>">
-						<div class="input-group" id="search-group">
+						<div class="input-group">
 							<input class="form-control" type="text" placeholder="请输入关键字" value='<%=text%>' name="text" />
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="submit">搜索</button>
@@ -104,7 +104,7 @@
 				</div>
 				<div role="tabpanel" class="tab-pane fade <%=panel_class[1]%>" id="search_number">
 					<form action="<%=link%>" method="<%=method%>" style="margin-top: 12px;" onsubmit="return checkCIP(this)">
-						<div class="input-group" id="search-group">
+						<div class="input-group">
 							<span class="input-group-addon" style="width: 120px;">通过CIP查找</span>
 							<input class="form-control" type="text" id="inputCIP" placeholder="图书在版编目编号（10位数字）" value='<%=CIP%>' name="CIP" />
 							<span class="input-group-btn">
@@ -113,7 +113,7 @@
 						</div>
 					</form>
 					<form action="<%=link%>" method="<%=method%>" onsubmit="return checkISBN(this)">
-						<div class="input-group" id="search-group">
+						<div class="input-group">
 							<span class="input-group-addon" style="width: 120px;">通过ISBN查找</span>
 							<input class="form-control" type="text" id="inputISBN" placeholder="国际标准书号（13位数字或带分隔线的编号）" value='<%=ISBN%>' name="ISBN" />
 							<span class="input-group-btn">
@@ -191,7 +191,7 @@
 				}
 			%>
 		</div>
-		<table class="table table-hover table-striped" style="font-size: small;">
+		<table class="table table-hover" style="font-size: small;">
 			<tr>
 				<th>书名</th>
 				<th>作者</th>

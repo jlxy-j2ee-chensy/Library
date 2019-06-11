@@ -20,7 +20,6 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/Library/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/Library/css/common.css" />
-<link rel="stylesheet" type="text/css" href="/Library/css/index.css" />
 <!-- js -->
 <script src="/Library/js/jquery-3.4.1.min.js"></script>
 <script src="/Library/js/bootstrap.min.js"></script>
@@ -36,7 +35,7 @@
 			<!-- 搜索框组 -->
 			<div class="col-md-12">
 				<form action="/Library/book_list.jsp" method="post">
-					<div class="input-group" id="search-group">
+					<div class="input-group" id="index-search">
 						<input class="form-control" type="text" placeholder="请输入关键字" name="text" />
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit">搜索</button>
@@ -49,7 +48,7 @@
 			<!-- 新闻公告 -->
 			<div class="col-md-6">
 				<h3>新闻公告</h3>
-				<div id="index_news" class="list-group">
+				<div id="index-news" class="list-group">
 					<%
 						ArrayList<NewsPiece> list = news.getLatest(6);
 						for (NewsPiece newsPiece : list) {
