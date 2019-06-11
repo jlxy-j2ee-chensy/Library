@@ -22,9 +22,8 @@
 	<%@ include file="header.jsp"%>
 
 	<div class="container section">
-	
-		
-		
+    
+
 	</div>
 
 	<%@ include file="footer.jsp"%>
