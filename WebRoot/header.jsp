@@ -54,8 +54,8 @@
 		<ul class="nav nav-pills nav-justified hidden-xs">
 			<li role="presentation"><a href="/Library/index.jsp">图书馆首页</a></li>
 			<li role="presentation"><a href="/Library/book_list.jsp">图书资源</a></li>
-			<li role="presentation"><a href="#">新闻公告</a></li>
-			<li role="presentation"><a href="#">关于图书馆</a></li>
+			<li role="presentation"><a href="/Library/news.jsp">新闻公告</a></li>
+			<li role="presentation"><a href="/Library/about.jsp">关于图书馆</a></li>
 		</ul>
 		<!-- 窄屏幕 -->
 		<ul class="nav nav-pills visible-xs">
