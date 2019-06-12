@@ -42,8 +42,8 @@
 						</span>
 					</div>
 				</form>
-			</div>
-		</div>
+			</div><%-- div.col --%>
+		</div><%-- div.row --%>
 		<div class="row">
 			<!-- 新闻公告 -->
 			<div class="col-md-6">
@@ -60,14 +60,14 @@
 					<%
 						}
 					%>
-				</div>
-			</div>
+				</div><%-- div.list-group --%>
+			</div><%-- div.col --%>
 			<!-- 热门图书 -->
 			<div class="col-md-6">
 				<%@ include file="index_books.jsp"%>
-			</div>
-		</div>
-	</div>
+			</div><%-- div.col --%>
+		</div><%-- div.row --%>
+	</div><%-- div.container --%>
 
 	<%@ include file="footer.jsp"%>
 </body>

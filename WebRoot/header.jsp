@@ -35,13 +35,13 @@
 					<li role="separator" class="divider"></li>
 					<li><a onclick="logout()">退出登录</a></li>
 				</ul>
-			</div>
+			</div><%-- div.dropdown --%>
 			<%
 				}
 			%>
-		</div>
-	</div>
-</div>
+		</div><%-- div.pull-right --%>
+	</div><%-- div.container --%>
+</div><%-- #top-row --%>
 
 <%-- 标题图片 --%>
 <div id="title-row">
@@ -54,8 +54,8 @@
 		<ul class="nav nav-pills nav-justified hidden-xs">
 			<li role="presentation"><a href="/Library/index.jsp">图书馆首页</a></li>
 			<li role="presentation"><a href="/Library/book_list.jsp">图书资源</a></li>
-			<li role="presentation"><a href="#">新闻公告</a></li>
-			<li role="presentation"><a href="#">关于图书馆</a></li>
+			<li role="presentation"><a href="/Library/news.jsp">新闻公告</a></li>
+			<li role="presentation"><a href="/Library/about.jsp">关于图书馆</a></li>
 		</ul>
 		<!-- 窄屏幕 -->
 		<ul class="nav nav-pills visible-xs">
@@ -158,7 +158,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title">用户登录</h4>
-				</div>
+				</div><%-- div.modal-header --%>
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="modalLoginUsername">用户名</label>
@@ -169,7 +169,7 @@
 						<input name="password" id="modalLoginPassword" type="password" class="form-control" placeholder="密码">
 					</div>
 					<div class="error" id="modalLoginError"></div>
-				</div>
+				</div><%-- div.modal-body --%>
 				<div class="modal-footer">
 					<span class="pull-left small">
 						没有账户？
@@ -177,11 +177,11 @@
 					</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="submit" class="btn btn-primary" onclick="loginCheck()">登录</button>
-				</div>
+				</div><%-- div.modal-footer --%>
 			</form>
-		</div>
-	</div>
-</div>
+		</div><%-- div.modal-content --%>
+	</div><%-- div.dialog --%>
+</div><%-- div.modal --%>
 <%-- 注册框 --%>
 <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="">
 	<div class="modal-dialog" role="document">
@@ -192,7 +192,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title">用户注册</h4>
-				</div>
+				</div><%-- div.modal-header --%>
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="modalRegisterUsername">用户名</label>
@@ -207,7 +207,7 @@
 						<input name="password2" id="modalRegisterPassword2" type="password" class="form-control" placeholder="重复密码">
 					</div>
 					<div class="error" id="modalRegisterError"></div>
-				</div>
+				</div><%-- div.modal-body --%>
 				<div class="modal-footer">
 					<span class="pull-left small">
 						已有账户？
@@ -215,11 +215,11 @@
 					</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="submit" class="btn btn-primary" onclick="registerCheck()">注册</button>
-				</div>
+				</div><%-- div.modal-footer --%>
 			</form>
-		</div>
-	</div>
-</div>
+		</div><%-- div.modal-content --%>
+	</div><%-- div.modal-dialog --%>
+</div><%-- div.modal --%>
 <%
 	} else {
 %>

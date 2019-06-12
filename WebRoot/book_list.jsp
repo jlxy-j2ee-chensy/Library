@@ -101,7 +101,7 @@
 							</span>
 						</div>
 					</form>
-				</div>
+				</div><%-- div.tab-pane --%>
 				<div role="tabpanel" class="tab-pane fade <%=panel_class[1]%>" id="search_number">
 					<form action="<%=link%>" method="<%=method%>" style="margin-top: 12px;" onsubmit="return checkCIP(this)">
 						<div class="input-group">
@@ -121,7 +121,7 @@
 							</span>
 						</div>
 					</form>
-				</div>
+				</div><%-- div.tab-pane --%>
 				<div role="tabpanel" class="tab-pane fade <%=panel_class[2]%>" id="search_full">
 					<form class="form-horizontal" action="<%=link%>" method="<%=method%>">
 						<div class="row" style="margin-top: 12px;">
@@ -130,25 +130,25 @@
 								<div class="col-md-9">
 									<input type="text" class="form-control" id="inputTitle" name="title" placeholder="书名" value='<%=title%>' />
 								</div>
-							</div>
+							</div><%-- div.form-group --%>
 							<div class="form-group col-md-6">
 								<label for="inputSeries" class="col-md-3 control-label">丛书名</label>
 								<div class="col-md-9">
 									<input type="text" class="form-control" id="inputSeries" name="series" placeholder="丛书名" value='<%=series%>' />
 								</div>
-							</div>
+							</div><%-- div.form-group --%>
 							<div class="form-group col-md-6">
 								<label for="inputAuthor" class="col-md-3 control-label">作者</label>
 								<div class="col-md-9">
 									<input type="text" class="form-control" id="inputAuthor" name="author" placeholder="作者" value='<%=author%>' />
 								</div>
-							</div>
+							</div><%-- div.form-group --%>
 							<div class="form-group col-md-6">
 								<label for="inputPub_ins" class="col-md-3 control-label">出版单位</label>
 								<div class="col-md-9">
 									<input type="text" class="form-control" id="inputPub_ins" name="pub_ins" placeholder="出版单位" value='<%=pub_ins%>' />
 								</div>
-							</div>
+							</div><%-- div.form-group --%>
 							<div class="form-group col-md-6">
 								<label for="selectLanguage" class="col-md-3 control-label">语言</label>
 								<div class="col-md-9">
@@ -164,13 +164,13 @@
 										%>
 									</select>
 								</div>
-							</div>
+							</div><%-- div.form-group --%>
 							<button type="submit" class="btn btn-default pull-right" style="margin-right: 75px;">搜索</button>
-						</div>
+						</div><%-- div.row --%>
 					</form>
-				</div>
-			</div>
-		</div>
+				</div><%-- div.form-horizontal --%>
+			</div><%-- div.tab-pane --%>
+		</div><%-- div.tab-content --%>
 
 		<%-- 列表 --%>
 		<%
