@@ -17,31 +17,44 @@
 				if (user == null) {
 			%>
 			<%-- 未登录时 --%>
-			<a type="button" class="btn-link" onclick="login()">登录</a>
-			<a type="button" class="btn-link" onclick="register()">注册</a>
+			<a type="button" class="btn-link" onclick="login()">登录</a> <a
+				type="button" class="btn-link" onclick="register()">注册</a>
 			<%
 				} else {
 			%>
 			<%-- 已登录时 --%>
-			<span><%="欢迎，" + ((User) session.getAttribute("CurrentUser")).getUsername() + "！"%></span>
+			<span><%="欢迎，" + user.getUsername() + "！"%></span>
 			<div class="dropdown">
-				<a id="btnUser" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-					用户中心
-					<span class="caret"></span>
+				<a id="btnUser" class="dropdown-toggle" data-toggle="dropdown"
+					role="button" aria-haspopup="true" aria-expanded="true"> 用户中心 <span
+					class="caret"></span>
 				</a>
 				<ul id="menuUser" class="dropdown-menu" aria-labelledby="btnUser">
 					<li><a href="#">查看借阅</a></li>
 					<li><a href="#">修改密码</a></li>
 					<li role="separator" class="divider"></li>
+					<%
+						if (user.getRole() >= User.ROLE_ADMIN) {
+					%>
+					<li><a href="/Library/user_list.jsp">管理用户</a></li>
+
+					<li role="separator" class="divider"></li>
+					<%
+						}
+					%>
 					<li><a onclick="logout()">退出登录</a></li>
 				</ul>
-			</div><%-- div.dropdown --%>
+			</div>
+			<%-- div.dropdown --%>
 			<%
 				}
 			%>
-		</div><%-- div.pull-right --%>
-	</div><%-- div.container --%>
-</div><%-- #top-row --%>
+		</div>
+		<%-- div.pull-right --%>
+	</div>
+	<%-- div.container --%>
+</div>
+<%-- #top-row --%>
 
 <%-- 标题图片 --%>
 <div id="title-row">
@@ -61,8 +74,8 @@
 		<ul class="nav nav-pills visible-xs">
 			<li role="presentation"><a href="/Library/index.jsp">图书馆首页</a></li>
 			<li role="presentation"><a href="/Library/book_list.jsp">图书资源</a></li>
-			<li role="presentation"><a href="#">新闻公告</a></li>
-			<li role="presentation"><a href="#">关于图书馆</a></li>
+			<li role="presentation"><a href="/Library/news.jsp">新闻公告</a></li>
+			<li role="presentation"><a href="/Library/about.jsp">关于图书馆</a></li>
 		</ul>
 	</div>
 </div>
@@ -149,77 +162,100 @@
 	}
 </script>
 <%-- 登录框 --%>
-<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="">
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog"
+	aria-labelledby="">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form name="modalLoginForm" id="modalLoginForm" method="post" onsubmit="return false">
+			<form name="modalLoginForm" id="modalLoginForm" method="post"
+				onsubmit="return false">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title">用户登录</h4>
-				</div><%-- div.modal-header --%>
+				</div>
+				<%-- div.modal-header --%>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="modalLoginUsername">用户名</label>
-						<input name="username" id="modalLoginUsername" type="text" class="form-control" placeholder="用户名">
+						<label for="modalLoginUsername">用户名</label> <input name="username"
+							id="modalLoginUsername" type="text" class="form-control"
+							placeholder="用户名">
 					</div>
 					<div class="form-group">
-						<label for="modalLoginPassword">密码</label>
-						<input name="password" id="modalLoginPassword" type="password" class="form-control" placeholder="密码">
+						<label for="modalLoginPassword">密码</label> <input name="password"
+							id="modalLoginPassword" type="password" class="form-control"
+							placeholder="密码">
 					</div>
 					<div class="error" id="modalLoginError"></div>
-				</div><%-- div.modal-body --%>
+				</div>
+				<%-- div.modal-body --%>
 				<div class="modal-footer">
-					<span class="pull-left small">
-						没有账户？
-						<a class="btn-link" onclick="register()">去注册</a>
+					<span class="pull-left small"> 没有账户？ <a class="btn-link"
+						onclick="register()">去注册</a>
 					</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="submit" class="btn btn-primary" onclick="loginCheck()">登录</button>
-				</div><%-- div.modal-footer --%>
+					<button type="submit" class="btn btn-primary"
+						onclick="loginCheck()">登录</button>
+				</div>
+				<%-- div.modal-footer --%>
 			</form>
-		</div><%-- div.modal-content --%>
-	</div><%-- div.dialog --%>
-</div><%-- div.modal --%>
+		</div>
+		<%-- div.modal-content --%>
+	</div>
+	<%-- div.dialog --%>
+</div>
+<%-- div.modal --%>
 <%-- 注册框 --%>
-<div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="">
+<div class="modal fade" id="modalRegister" tabindex="-1" role="dialog"
+	aria-labelledby="">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form name="modalRegisterForm" id="modalRegisterForm" method="post" onsubmit="return false">
+			<form name="modalRegisterForm" id="modalRegisterForm" method="post"
+				onsubmit="return false">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title">用户注册</h4>
-				</div><%-- div.modal-header --%>
+				</div>
+				<%-- div.modal-header --%>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="modalRegisterUsername">用户名</label>
-						<input name="username" id="modalRegisterUsername" type="text" class="form-control" placeholder="用户名">
+						<label for="modalRegisterUsername">用户名</label> <input
+							name="username" id="modalRegisterUsername" type="text"
+							class="form-control" placeholder="用户名">
 					</div>
 					<div class="form-group">
-						<label for="modalRegisterPassword">密码</label>
-						<input name="password" id="modalRegisterPassword" type="password" class="form-control" placeholder="密码">
+						<label for="modalRegisterPassword">密码</label> <input
+							name="password" id="modalRegisterPassword" type="password"
+							class="form-control" placeholder="密码">
 					</div>
 					<div class="form-group">
-						<label for="modalRegisterPassword2">重复密码</label>
-						<input name="password2" id="modalRegisterPassword2" type="password" class="form-control" placeholder="重复密码">
+						<label for="modalRegisterPassword2">重复密码</label> <input
+							name="password2" id="modalRegisterPassword2" type="password"
+							class="form-control" placeholder="重复密码">
 					</div>
 					<div class="error" id="modalRegisterError"></div>
-				</div><%-- div.modal-body --%>
+				</div>
+				<%-- div.modal-body --%>
 				<div class="modal-footer">
-					<span class="pull-left small">
-						已有账户？
-						<a class="btn-link" onclick="login()">去登录</a>
+					<span class="pull-left small"> 已有账户？ <a class="btn-link"
+						onclick="login()">去登录</a>
 					</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="submit" class="btn btn-primary" onclick="registerCheck()">注册</button>
-				</div><%-- div.modal-footer --%>
+					<button type="submit" class="btn btn-primary"
+						onclick="registerCheck()">注册</button>
+				</div>
+				<%-- div.modal-footer --%>
 			</form>
-		</div><%-- div.modal-content --%>
-	</div><%-- div.modal-dialog --%>
-</div><%-- div.modal --%>
+		</div>
+		<%-- div.modal-content --%>
+	</div>
+	<%-- div.modal-dialog --%>
+</div>
+<%-- div.modal --%>
 <%
 	} else {
 %>

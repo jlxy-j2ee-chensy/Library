@@ -12,7 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- css -->
-<link rel="stylesheet" type="text/css" href="/Library/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="/Library/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/Library/css/common.css" />
 <!-- js -->
 <script src="/Library/js/jquery-3.4.1.min.js"></script>
@@ -66,7 +67,7 @@
 		<div class="row">
 			<div class="col-md-10">
 				<h2><%=newsPiece.getTitle()%></h1>
-				<p><%=newsPiece.getContent()%></p>
+					<p><%=newsPiece.getContent()%></p>
 			</div>
 			<%-- 操作 --%>
 			<div class="col-md-2">
@@ -74,9 +75,12 @@
 				<%
 					if (user != null && user.getRole() >= User.ROLE_ADMIN) {
 				%>
-				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
-					<a type="button" class="btn btn-default" href="/Library/news_info.jsp?newsid=<%=id%>&action=edit">编辑此新闻</a>
-					<a type="button" class="btn btn-default" href="/Library/news_info.jsp?newsid=<%=id%>&action=delete">删除此新闻</a>
+				<div class="btn-group-vertical" role="group" aria-label="..."
+					style="margin-top: 72px;">
+					<a type="button" class="btn btn-default"
+						href="/Library/news_info.jsp?newsid=<%=id%>&action=edit">编辑此新闻</a>
+					<a type="button" class="btn btn-default"
+						href="/Library/news_info.jsp?newsid=<%=id%>&action=delete">删除此新闻</a>
 				</div>
 				<%
 					}
@@ -87,26 +91,31 @@
 			} else if ("edit".equals(action) || ("new".equals(action))) {
 		%>
 		<%-- 编辑 --%>
-		<form action="/Library/news_info.jsp?newsid=<%=id%>&action=submit" method="post" class="form-horizontal">
+		<form action="/Library/news_info.jsp?newsid=<%=id%>&action=submit"
+			method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-10">
 					<div class="form-group">
 						<label for="inputTitle" class="control-label">标题</label>
 						<div>
-							<input type="text" class="form-control" id="inputTitle" name="title" placeholder="标题" value='<%=newsPiece.showTitle()%>' />
+							<input type="text" class="form-control" id="inputTitle"
+								name="title" placeholder="标题" value='<%=newsPiece.showTitle()%>' />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="textareaContent" class="control-label">内容</label>
 						<div>
-							<textarea class="form-control" id="textareaContent" name="content" placeholder="标题" rows="8"><%=newsPiece.showContent()%></textarea>
+							<textarea class="form-control" id="textareaContent"
+								name="content" placeholder="标题" rows="8"><%=newsPiece.showContent()%></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-2">
-					<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
+					<div class="btn-group-vertical" role="group" aria-label="..."
+						style="margin-top: 72px;">
 						<button type="submit" class="btn btn-default">提交</button>
-						<button type="button" class="btn btn-default" onclick="window.history.back();">取消</button>
+						<button type="button" class="btn btn-default"
+							onclick="window.history.back();">取消</button>
 					</div>
 				</div>
 			</div>
@@ -114,8 +123,8 @@
 		<%
 			}
 		%>
+	</div>
 
-
-		<%@ include file="footer.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

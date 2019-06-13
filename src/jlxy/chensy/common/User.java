@@ -1,7 +1,5 @@
 package jlxy.chensy.common;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 
 public class User {
@@ -97,23 +95,6 @@ public class User {
 	public void setUsername(String username) {
 		assert (!Util.isNullOrEmpty(username));
 		this.username = username;
-	}
-	
-	public User parse (ResultSet rs)throws SQLException {
-		User user = new User();
-		int id = rs.getInt("id");
-		String userName = rs.getString("username");
-		String password = rs.getString("password");
-		int role = rs.getInt("role");
-		String registerTime = Util.dateToString(rs.getDate("register_time"));
-		String loginTime = Util.dateToString(rs.getDate("login_time"));
-		user.setId(id);
-		user.setUsername(userName);
-		user.setPassword(password);
-		user.setRole(role);
-		user.setRegister_time(register_time);
-		user.setLogin_time(login_time);
-		return user;
 	}
 
 }

@@ -12,7 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- css -->
-<link rel="stylesheet" type="text/css" href="/Library/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="/Library/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/Library/css/common.css" />
 <!-- js -->
 <script src="/Library/js/jquery-3.4.1.min.js"></script>
@@ -25,25 +26,39 @@
 	<%@ include file="header.jsp"%>
 
 	<div class="container section">
-		 
-			<!-- 新闻公告 -->
-			<div class="col-md-6">
-				<h3>新闻公告</h3>
-				<div id="index-news" class="list-group">
-					<%
-						ArrayList<NewsPiece> list = news.getLatest(6);
-						for (NewsPiece newsPiece : list) {
-					%>
-					<a class="list-group-item" href="/Library/news_info.jsp?newsid=<%=newsPiece.getId()%>">
-						<%=newsPiece.getTitle()%>
-						<div class="pull-right small"><%=newsPiece.showDate()%></div>
-					</a>
-					<%
-						}
-					%>
-				</div>
-			</div>
-</div>
-		<%@ include file="footer.jsp"%>
+
+		<!-- 新闻公告 -->
+		<h3>新闻公告</h3>
+		<table class="table table-hover" style="font-size: small;">
+			<!-- 			<tr>
+				<th>新闻标题</th>
+				<th>新闻时间</th>
+			</tr> -->
+			<%
+				ArrayList<NewsPiece> list = news.getLatest(0);
+				for (NewsPiece n : list) {
+			%>
+			<tr>
+				<td style="line-height: 2;"><a
+					href="/Library/news_info.jsp?newsid=<%=n.getId()%>"><%=n.showTitle()%></a>
+				</td>
+				<td style="line-height: 2;"><%=n.showDate()%></td>
+				<%
+					if (user != null && user.getRole() >= User.ROLE_ADMIN) {
+				%>
+				<td>
+					<button class="btn btn-default btn-sm" type="button"
+						onclick="newsDelete'<%=n.getId()%>')">删除</button>
+				</td>
+				<%
+					}
+				%>
+			</tr>
+			<%
+				}
+			%>
+		</table>
+	</div>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

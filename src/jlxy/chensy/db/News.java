@@ -47,8 +47,10 @@ public class News {
 
 	public ArrayList<NewsPiece> getLatest(int count) {
 		ArrayList<NewsPiece> list = new ArrayList<NewsPiece>();
-		if (count <= 0)
+		if (count < 0)
 			return list;
+		if (count == 0)
+			count = max();
 		Conn conn = new Conn();
 		String sql = "SELECT * FROM news ORDER BY time DESC";
 		ResultSet rs = conn.select(sql);
