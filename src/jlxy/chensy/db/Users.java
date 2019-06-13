@@ -2,6 +2,7 @@ package jlxy.chensy.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import jlxy.chensy.common.User;
@@ -121,5 +122,22 @@ public class Users {
 		this.update(user);
 		extra = "注册成功";
 		return getUser(username);
+	}
+	
+	public ArrayList<User> getUsers() {
+		ArrayList<User> users = new ArrayList<User>();
+		String sql = "SELECT * FROM user;";
+		Conn conn = new Conn();
+		ResultSet rs = conn.select(sql);
+		try {
+			while(rs.next()) {
+				users.add(new User().parse(rs));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		conn.close();
+		return users;
 	}
 }
