@@ -53,6 +53,9 @@ public class Borrow {
 	public int getBookId() {
 		return bookid;
 	}
+	public void setTime(Date date) {
+		this.time = date;
+	}
 
 	public Date getTime() {
 		return time;

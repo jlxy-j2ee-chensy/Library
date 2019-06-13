@@ -28,17 +28,13 @@ public class Borrows {
 		return borrow;
 	}
 
-	public Borrow parse(ResultSet resultSet) {
+	private Borrow parse(ResultSet resultSet) throws SQLException {
 		Borrow borrow = null;
-		try {
-			int userid = resultSet.getInt("userid");
-			int bookid = resultSet.getInt("bookid");
-			int status = resultSet.getInt("status");
-			Date time = resultSet.getDate("time");
-			borrow = new Borrow(userid, bookid, status, time);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		int userid = resultSet.getInt("userid");
+		int bookid = resultSet.getInt("bookid");
+		int status = resultSet.getInt("status");
+		Date time = resultSet.getTimestamp("time");
+		borrow = new Borrow(userid, bookid, status, time);
 		return borrow;
 	}
 
@@ -47,29 +43,31 @@ public class Borrows {
 			System.err.println("Borrows.set错误");
 			return;
 		}
-		System.out.println(borrow.getUserId() + "-" + borrow.getBookId());
 		if (get(borrow.getUserId(), borrow.getBookId()) != null) {
 			if (borrow.getStatus() == Borrow.STATUS_RETURNED) {
 				Conn conn = new Conn();
 				String sql = "DELETE FROM borrow WHERE userid=%d AND bookid=%d;";
 				sql = String.format(sql, borrow.getUserId(), borrow.getBookId());
 				conn.update(sql);
+				conn.close();
 			} else {
 				Conn conn = new Conn();
 				String sql = "UPDATE borrow SET status=%d, time=%s WHERE userid=%d AND bookid=%d;";
 				sql = String.format(sql, borrow.getStatus(), borrow.showTime(), borrow.getUserId(), borrow.getBookId());
 				conn.update(sql);
+				conn.close();
 			}
 		} else {
 			Conn conn = new Conn();
 			String sql = "INSERT INTO borrow(userid, bookid, status, time) VALUES (%d, %d, %d, '%s');";
 			sql = String.format(sql, borrow.getUserId(), borrow.getBookId(), borrow.getStatus(), borrow.showTime());
 			conn.update(sql);
+			conn.close();
 		}
 	}
 
 	public ArrayList<Borrow> getByUser(int userid) {
-		if (userid <= 0) {
+		if (userid < 0) {
 			System.err.println("Borrows.getByUser错误");
 			return null;
 		}
@@ -83,6 +81,7 @@ public class Borrows {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		conn.close();
 		return list;
 	}
 
@@ -101,6 +100,24 @@ public class Borrows {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		conn.close();
+		return list;
+	}
+
+	public ArrayList<Borrow> getAll() {
+		String sql = "SELECT * FROM borrow;";
+		ArrayList<Borrow> list = new ArrayList<>();
+		Conn conn = new Conn();
+		ResultSet rs = conn.select(sql);
+		try {
+			while (rs.next()) {
+				list.add(parse(rs));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		conn.close();
 		return list;
 	}
 }
