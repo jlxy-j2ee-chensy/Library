@@ -163,7 +163,7 @@
 				%>
 				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
 					<a type="button" class="btn btn-default" href="/Library/book_info.jsp?bookid=<%=id%>&action=edit">编辑本书信息</a>
-					<a type="button" class="btn btn-default" href="#">查看本书借阅记录</a>
+					<a type="button" class="btn btn-default" href="/Library/borrow_list.jsp?bookid=<%=id%>">查看本书借阅记录</a>
 					<a type="button" class="btn btn-default" href="/Library/book_info.jsp?bookid=<%=id%>&action=delete">从数据库删除本书</a>
 				</div>
 				<%
@@ -191,7 +191,7 @@
 					<%
 						}
 					%>
-					<button type="button" class="btn btn-default">查看账号借阅情况</button>
+					<a type="button" class="btn btn-default" href="/Library/borrow_list.jsp">查看账号借阅情况</a>
 				</div>
 				<%
 					}

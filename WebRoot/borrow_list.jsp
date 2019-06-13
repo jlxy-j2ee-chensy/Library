@@ -1,5 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:useBean id="borrows" scope="page" class="jlxy.chensy.db.Borrows" />
+<jsp:useBean id="books" scope="page" class="jlxy.chensy.db.Books" />
+<jsp:useBean id="users" scope="page" class="jlxy.chensy.db.Users" />
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -12,8 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- css -->
-<link rel="stylesheet" type="text/css"
-	href="/Library/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Library/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/Library/css/common.css" />
 <!-- js -->
 <script src="/Library/js/jquery-3.4.1.min.js"></script>
@@ -23,47 +25,103 @@
 	<%@ include file="header.jsp"%>
 
 	<div class="container section">
-		<%-- <%
-			if (session.getAttribute("CurrentUser") == null
-					|| ((User) session.getAttribute("CurrentUser")).getRole() < User.ROLE_ADMIN) {
+
+		<%
+			String error = null;
+			ArrayList<Borrow> list;
+			if ("all".equals(request.getParameter("action"))) {
+				if (user == null || user.getRole() < User.ROLE_ADMIN) {
 		%>
 		<div class="error">用户权限不足！</div>
 		<%
 			} else {
-		%> --%>
-		<%-- 列表 --%>
-		<%
-			ArrayList<Borrow> list = borrows.getAll();
+					list = borrows.getAll();
 		%>
-		<div style="margin-top: 24px;">
-			<span class="pull-left"> 共有<%=list.size()%>条结果。
-			</span>
-
-		</div>
+		<%-- 全部列表 --%>
 		<table class="table table-hover" style="font-size: small;">
 			<tr>
 				<th>用户名</th>
-				<th>权限</th>
-				<th>注册时间</th>
-				<th>最后登录时间</th>
-				<th></th>
+				<th>书名</th>
+				<th>状态更新时间</th>
+				<th>当前状态</th>
 			</tr>
 			<%
-				for (User u : list) {
+				for (Borrow b : list) {
 			%>
 			<tr>
-				<td style="line-height: 2;"><%=u.getUsername()%></td>
-				<td style="line-height: 2;"><%=User.ROLE_INFO[u.getRole()]%></td>
-				<td style="line-height: 2;"><%=u.showRegister_time()%></td>
-				<td style="line-height: 2;"><%=u.showLogin_time()%></td>
-				<td><button class="btn btn-default btn-sm" type="button"
-						onclick="userDelete('<%=u.getUsername()%>')">删除</button></td>
+				<td style="line-height: 2;"><%=users.getUser(b.getUserId()).getUsername()%></td>
+				<td style="line-height: 2;"><%=books.getBook(b.getBookId()).showFullTitle()%></td>
+				<td style="line-height: 2;"><%=b.showTime()%></td>
+				<td style="line-height: 2;"><%=b.showStatus()%></td>
 			</tr>
 			<%
 				}
 			%>
 		</table>
 		<%
+			}
+			} else if (!Util.isNullOrEmpty(request.getParameter("bookid"))) {
+				if (user == null || user.getRole() < User.ROLE_ADMIN) {
+		%>
+		<div class="error">用户权限不足！</div>
+		<%
+			} else {
+					list = borrows.getByBook(Integer.parseInt(request.getParameter("bookid")));
+		%>
+		<%-- 图书列表 --%>
+		<table class="table table-hover" style="font-size: small;">
+			<tr>
+				<th>用户名</th>
+				<th>书名</th>
+				<th>状态更新时间</th>
+				<th>当前状态</th>
+			</tr>
+			<%
+				for (Borrow b : list) {
+			%>
+			<tr>
+				<td style="line-height: 2;"><%=users.getUser(b.getUserId()).getUsername()%></td>
+				<td style="line-height: 2;"><%=books.getBook(b.getBookId()).showFullTitle()%></td>
+				<td style="line-height: 2;"><%=b.showTime()%></td>
+				<td style="line-height: 2;"><%=b.showStatus()%></td>
+			</tr>
+			<%
+				}
+			%>
+		</table>
+		<%
+			}
+			} else {
+				if (user == null) {
+		%>
+		<div class="error">未登录！</div>
+		<%
+			} else {
+					list = borrows.getByUser(user.getId());
+		%>
+		<%-- 用户列表 --%>
+		<table class="table table-hover" style="font-size: small;">
+			<tr>
+				<th>用户名</th>
+				<th>书名</th>
+				<th>状态更新时间</th>
+				<th>当前状态</th>
+			</tr>
+			<%
+				for (Borrow b : list) {
+			%>
+			<tr>
+				<td style="line-height: 2;"><%=users.getUser(b.getUserId()).getUsername()%></td>
+				<td style="line-height: 2;"><%=books.getBook(b.getBookId()).showFullTitle()%></td>
+				<td style="line-height: 2;"><%=b.showTime()%></td>
+				<td style="line-height: 2;"><%=b.showStatus()%></td>
+			</tr>
+			<%
+				}
+			%>
+		</table>
+		<%
+			}
 			}
 		%>
 	</div>

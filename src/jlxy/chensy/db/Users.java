@@ -15,10 +15,29 @@ public class Users {
 		return this.extra;
 	}
 
-	private User getUser(String username) {
+	public User getUser(String username) {
 		assert (username != null);
 		Conn conn = new Conn("User.getUser(" + username + ")");
 		String sql = String.format("SELECT * FROM user WHERE username='%s'", username);
+		ResultSet rs = conn.select(sql);
+		try {
+			if (!rs.next()) {
+				conn.close("用户不存在");
+				return null;
+			} else {
+				User user = parse(rs);
+				conn.close();
+				return user;
+			}
+		} catch (SQLException e) {
+			conn.close("数据库连接失败");
+			return null;
+		}
+	}
+
+	public User getUser(int id) {
+		Conn conn = new Conn("User.getUser(" + id + ")");
+		String sql = String.format("SELECT * FROM user WHERE id=%s", id);
 		ResultSet rs = conn.select(sql);
 		try {
 			if (!rs.next()) {
