@@ -8,15 +8,15 @@
 	int userid = ((User) session.getAttribute("CurrentUser")).getId();
 	int bookid = Integer.parseInt(request.getParameter("bookid"));
 	out.clear();
-	if (borrows.get(userid, bookid) != null) {
-		out.print("您已预约或借阅此书，不能重复预约！");
-	} else if (borrows.getByUser(userid).size() >= 3) {
-		out.print("每个用户最多同时预约或借阅3本图书！");
-		//} else if (borrows.getByBook(bookid).size() >= books.getBook(bookid).getCount()) {
-		//	out.print("馆藏数量不足！");
+	if (borrows.get(userid, bookid) == null) {
+		out.print("您未预约此书！");
+	} else if (borrows.get(userid, bookid).getStatus() == Borrow.STATUS_BORROWED) {
+		out.print("请携带图书至图书馆还书！");
 	} else {
 		Borrow borrow = new Borrow(userid, bookid);
-		borrow.setStatus(Borrow.STATUS_BOOKED);
+		borrow.setStatus(Borrow.STATUS_RETURNED);
 		borrows.set(borrow);
+		out.print("取消成功");
 	}
+	// 结尾不能加空行/空格！！
 %>

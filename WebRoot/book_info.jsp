@@ -174,45 +174,20 @@
 				<%
 					if (user != null && user.getRole() >= User.ROLE_MEMBER) {
 				%>
-				<script>
-					function book() {
-						$.post('/Library/borrow-check.jsp', {
-							bookid : location.search
-									.match(/(&|\?)bookid=(\d+)/)[2]
-						}, function(data) {
-							if (data.match(/^\s*$/)) {
-								modalRefresh('预约成功');
-							} else {
-								modalAlert('预约失败', data);
-							}
-						})
-					}
-					function unbook() {
-						$.post('/Library/unborrow-check.jsp', {
-							bookid : location.search
-									.match(/(&|\?)bookid=(\d+)/)[2]
-						}, function(data) {
-							if (data.match(/^\s*$/)) {
-								modalRefresh('取消预约成功');
-							} else {
-								modalAlert('取消预约失败', data);
-							}
-						})
-					}
-				</script>
+				<script src="/Library/js/borrow.js"></script>
 				<div class="btn-group-vertical" role="group" aria-label="..." style="margin-top: 72px;">
 					<%
 						Borrow borrow = borrows.get(user.getId(), id);
 								if (borrow == null) {
 					%>
-					<button type="button" class="btn btn-default" onclick="book()">预约借阅本书</button>
+					<button type="button" class="btn btn-default" onclick="book('<%=id%>')">预约借阅本书</button>
 					<%
 						} else {
 					%>
 					<button type="button" class="btn btn-default disabled">
 						您已<%=borrow.showStatus()%>本书
 					</button>
-					<button type="button" class="btn btn-default" onclick="unbook()">取消预约本书</button>
+					<button type="button" class="btn btn-default" onclick="unbook('<%=id%>')">取消预约本书</button>
 					<%
 						}
 					%>

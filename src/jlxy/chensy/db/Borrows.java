@@ -47,6 +47,7 @@ public class Borrows {
 			System.err.println("Borrows.set错误");
 			return;
 		}
+		System.out.println(borrow.getUserId() + "-" + borrow.getBookId());
 		if (get(borrow.getUserId(), borrow.getBookId()) != null) {
 			if (borrow.getStatus() == Borrow.STATUS_RETURNED) {
 				Conn conn = new Conn();
@@ -62,7 +63,7 @@ public class Borrows {
 		} else {
 			Conn conn = new Conn();
 			String sql = "INSERT INTO borrow(userid, bookid, status, time) VALUES (%d, %d, %d, '%s');";
-			sql = String.format(sql, borrow.getUserId(), borrow.getUserId(), borrow.getStatus(), borrow.showTime());
+			sql = String.format(sql, borrow.getUserId(), borrow.getBookId(), borrow.getStatus(), borrow.showTime());
 			conn.update(sql);
 		}
 	}

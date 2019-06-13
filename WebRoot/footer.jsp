@@ -46,9 +46,7 @@
 				</button>
 				<h4 class="modal-title" id="modal-title"></h4>
 			</div>
-			<div class="modal-body" id="modal-body">
-				<p>是否刷新页面？</p>
-			</div>
+			<div class="modal-body" id="modal-body"></div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" id="modal-button1">确定</button>
 				<button type="button" class="btn btn-default" id="modal-button2">取消</button>
